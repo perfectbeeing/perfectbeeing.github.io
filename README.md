@@ -19,9 +19,9 @@ var awake = () => {
 awake();
 //trace( miles/texas);
 
-#The resulting simulation can be found by touching the link below.
+#The most recent simulation can be found by touching the link below.
 
-<a href="http://perfectbeeing.github.io">Perfect Beeing : A Sim Story </a>
+<a href="https://perfectbeeing.neocities.org/">Perfect Beeing : A Sim Story </a>
 
 
 #What the Critics Said

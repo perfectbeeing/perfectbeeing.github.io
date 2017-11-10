@@ -24,6 +24,11 @@ awake();
 <a href="https://perfectbeeing.neocities.org/">Perfect Beeing : A Sim Story </a>
 
 
+<a href="https://twitter.com/search?q=%23nanogenmo&src=tyah"> TWITTER </a>
+<a href="https://www.reddit.com/r/proceduralgeneration/comments/79sufx/nanogenmo_2017/"> REDDIT </a>
+<a href="https://www.facebook.com/events/1481221958634100/"> FACEBOOK </a> 
+
+
 #What the Critics Said
 
 

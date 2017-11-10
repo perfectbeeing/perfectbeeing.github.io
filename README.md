@@ -1,7 +1,6 @@
-# site
-Perfect Beeing 
+# Perfect Beeing 
 
-Code
+#Code
 
 This is written in Node.JS and requires quite a few modules
 
@@ -20,16 +19,18 @@ var awake = () => {
 awake();
 //trace( miles/texas);
 
-The resulting novel can be found by touching the link below.
+#The resulting simulation can be found by touching the link below.
 
 <a href="http://perfectbeeing.github.io">Perfect Beeing : A Sim Story </a>
 
 
-What the Critics Said
+#What the Critics Said
 
 
-ROBERTA SMITH: It displays a roughness around the edges. There is a mystery to it [:punct:][:digit:]' | Will it come together or will it not.
+#ROBERTA SMITH: 
+It displays a roughness around the edges. There is a mystery to it [:punct:][:digit:]' | Will it come together or will it not.
 
-JERRY SLATZ: Wishes to be about progress but is not
+#JERRY SLATZ: 
+Wishes to be about progress but is not
 
 

@@ -2109,7 +2109,7 @@ var Bot = function (src) {
       SIGH.emit(E.AWAKE_NAR);
       window.requestAnimationFrame(spin);
 
-      window.onresize = ()=> document.location.reload()
+     // window.onresize = ()=> document.location.reload()
 
     }
 

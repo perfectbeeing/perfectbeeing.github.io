@@ -1743,14 +1743,21 @@ var Bot = function (src) {
   else template = '#' + template;
 
   var glp0 = {}
-  glp0.h = 'Turn to Your Right'
-  glp0.p = 'Turn to Your Left'
-
+  glp0.t = 'Turn to Your Right'
+  glp0.c = [
+    {h:"Header", p:'here goes somthing'},
+    {h:"Header", p:'here goes somthing'},
+  ]
+  
   var glp1 = {}
-  glp1.h = 'Message In'
-  glp1.p = 'Message Out'
+  glp1.t = 'Turn to Your left'
+  glp1.c = [
+    {h:"Header", p:'here goes somthing'},
+    {h:"Header", p:'here goes somthing'},
+  ]
   
 
+  
   var pb  = {}
   pb.view = 1;
   pb.list = [];
@@ -1764,8 +1771,6 @@ var Bot = function (src) {
 
     SIGH.emit(E.AWAKE)
     SIGH.on( E.UPDATE, spin )
-
-    
 
     SIGH.on(E.TURN, turn )
 

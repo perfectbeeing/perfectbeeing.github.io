@@ -1745,15 +1745,15 @@ var Bot = function (src) {
   var glp0 = {}
   glp0.t = 'Turn to Your Right'
   glp0.c = [
-    {h:"Header", p:'here goes somthing'},
-    {h:"Header", p:'here goes somthing'},
+    {h:"Header", p:['here goes somthing']},
+    {h:"Header", p:['here goes somthing']},
   ]
   
   var glp1 = {}
   glp1.t = 'Turn to Your left'
   glp1.c = [
-    {h:"Header", p:'here goes somthing'},
-    {h:"Header", p:'here goes somthing'},
+    {h:"Header", p:['here goes somthing']},
+    {h:"Header", p:['here goes somthing', 'take a taxi', 'see you later alligator']},
   ]
   
 

@@ -1654,7 +1654,7 @@ var Bot = function (src) {
     SIGH.emit(E.AWAKE)
     SIGH.on( E.UPDATE, spin )
     
-    setTimeout ( ()=> action(0) , 333 )
+    setTimeout ( ()=> action(0, true ) , 333 )
     
 
   }
@@ -1686,7 +1686,7 @@ var Bot = function (src) {
 
   pb.roll = 0;
 
-  var action = ( dex ) =>{
+  var action = ( dex, btc ) =>{
      
     pb.dex = dex;
     
@@ -1702,6 +1702,8 @@ var Bot = function (src) {
     ROUTER.replace( i.p, complete, abort )
     
     trace("emiting sfx ")
+
+    if ( btc ) return 
     SIGH.emit( E.SFX )
     
     //setTimeout( ()=>{

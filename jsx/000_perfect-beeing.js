@@ -1797,7 +1797,7 @@ var Bot = function (src) {
 
     pb.list = [];
 
-    PB.forEach( ( a ) =>{
+    PB.story.forEach( ( a ) =>{
       pb.list.push( a )
     })
 

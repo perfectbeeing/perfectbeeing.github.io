@@ -1910,6 +1910,7 @@ var Bot = function (src) {
   var pb  = {}
   pb.view = 1;
   pb.key = 0;
+  pb.list = [ 'zero', 'one' ];
 
   var awake = () => {
 

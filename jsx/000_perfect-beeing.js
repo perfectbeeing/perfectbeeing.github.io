@@ -1654,6 +1654,8 @@ var Bot = function (src) {
     SIGH.emit(E.AWAKE)
     SIGH.on( E.UPDATE, spin )
     
+    setTimeout ( ()=> action(0) , 333 )
+    
 
   }
 

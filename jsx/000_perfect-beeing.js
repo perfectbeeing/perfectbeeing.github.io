@@ -1035,6 +1035,25 @@ var Bot = function () {
   PB.bee = require('../local/dat/000_perfect-beeing.json')
 
   if( !LOCAL) PB.bee = JSON.parse( PB.bee )
+
+  //story related items
+  var glp0 = {}
+  glp0.t = 'Turn to Your Right'
+  glp0.c = [
+    {h:"Header", p:['here goes somthing']},
+    {h:"Header", p:['here goes somthing']},
+  ]
+  
+  var glp1 = {}
+  glp1.t = 'Turn to Your left'
+  glp1.c = [
+    {h:"Header", p:['here goes somthing']},
+    {h:"Header", p:['here goes somthing', 'take a taxi', 'see you later alligator']},
+  ]
+  
+
+
+  PB.story = [ glp0 , glp1 ];
     
   PB.pool = 4;
   PB.scale = 1;
@@ -1742,27 +1761,12 @@ var Bot = function (src) {
   if (LOCAL) template = FS.readFileSync(localFile).toString()
   else template = '#' + template;
 
-  var glp0 = {}
-  glp0.t = 'Turn to Your Right'
-  glp0.c = [
-    {h:"Header", p:['here goes somthing']},
-    {h:"Header", p:['here goes somthing']},
-  ]
-  
-  var glp1 = {}
-  glp1.t = 'Turn to Your left'
-  glp1.c = [
-    {h:"Header", p:['here goes somthing']},
-    {h:"Header", p:['here goes somthing', 'take a taxi', 'see you later alligator']},
-  ]
-  
 
   
   var pb  = {}
   pb.view = 1;
   pb.list = [];
-  pb.list.push( glp0, glp1 )
-
+  
 
   var surface;
 
@@ -1782,7 +1786,7 @@ var Bot = function (src) {
 
   }
   
-  var block = 300;
+  var block = 3;
 
   var spin = () => { 
 
@@ -1791,7 +1795,13 @@ var Bot = function (src) {
 
     if ( block > 0 ) return
 
-//    block = 300;
+    pb.list = [];
+
+    PB.forEach( ( a ) =>{
+      pb.list.push( a )
+    })
+
+   block = 3;
 
   //  var vrb = FS.readFileSync('./2-dat/lex/vrb.txt').toString().split('\n')
   //  vrb.forEach( ( a, b ) => vrb[ b ] = a.split(':')[0])

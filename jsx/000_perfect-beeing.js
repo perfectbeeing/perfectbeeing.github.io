@@ -1741,11 +1741,22 @@ var Bot = function (src) {
 
   if (LOCAL) template = FS.readFileSync(localFile).toString()
   else template = '#' + template;
+
+  var glp0 = {}
+  glp0.h = 'Turn to Your Right'
+  glp0.p = 'Turn to Your Left'
+
+  var glp1 = {}
+  glp1.h = 'Message In'
+  glp1.p = 'Message Out'
   
+
   var pb  = {}
   pb.view = 1;
-  pb.plot = 'story';
-  
+  pb.list = [];
+  pb.list.push( glp0, glp1 )
+
+
   var surface;
 
   
@@ -1771,7 +1782,7 @@ var Bot = function (src) {
   var spin = () => { 
 
     block -= 1 ;
-  //  trace("block " + block )
+   //trace("block " + block )
 
     if ( block > 0 ) return
 

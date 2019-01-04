@@ -1036,7 +1036,9 @@ var Bot = function () {
 
   if( !LOCAL) PB.bee = JSON.parse( PB.bee )
 
-  //story related items
+ //story related items
+ //working class hotel 
+
   var glp0 = {}
   glp0.t = 'Turn to Your Right'
   glp0.c = [
@@ -1048,7 +1050,7 @@ var Bot = function () {
   glp1.t = 'Turn to Your left'
   glp1.c = [
     {h:"Header", p:['here goes somthing']},
-    {h:"Header", p:['here goes somthing', 'take a taxi', 'see you later alligator']},
+    {h:"Header", p:['here goes somthing', 'take a taxi', 'see you later alligator. dfsdfdf d dsfdsf asf fasddf sdf dsf. sdfds fsd sa fd f  asdsfdfsdfsd f sdsf dsfdsf   dsfdsf d sfds f .  ds fdf sfsdaf sfsdf dsfdsf sdf   afds fdfdsfdsfd sf.']},
   ]
   
 

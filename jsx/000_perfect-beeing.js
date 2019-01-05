@@ -1037,23 +1037,16 @@ var Bot = function () {
   if( !LOCAL) PB.bee = JSON.parse( PB.bee )
 
   var glp0 = {}
-  glp0.t = 'Turn to Your Right'
-  glp0.c = [
-    {h:"Header", p:['here goes somthing']},
-    {h:"Header", p:['here goes somthing']},
-  ]
-  
-  var glp1 = {}
-  glp1.t = 'Turn to Your left'
-  glp1.c = [
-    {h:"Header", p:['here goes somthing']},
-    {h:"Header", p:['here goes somthing', 'take a taxi', 'see you later alligator. dfsdfdf d dsfdsf asf fasddf sdf dsf. sdfds fsd sa fd f  asdsfdfsdfsd f sdsf dsfdsf   dsfdsf d sfds f .  ds fdf sfsdaf sfsdf dsfdsf sdf   afds fdfdsfdsfd sf.']},
-  ]
-  
+  glp0.t = 'Perfect Beeing';
+  glp0.c = [];
 
+  var chapter = ( h, p )=> { return {h:h, p:[]} } 
 
-  PB.story = [ glp1 ];
-  PB.chapter = glop0;
+  //{h:"Header", p:['here goes somthing']},
+  //{h:"Header", p:['here goes somthing']},
+
+  PB.story = [];
+  PB.book = glp0;
     
   PB.pool = 4;
   PB.scale = 1;
@@ -1161,8 +1154,20 @@ var Bot = function () {
 
     data = data || {};
     
-    if (data.now != null )  PB.now = data.now;
-        
+    if (data.now != null )  {
+
+      PB.now = data.now;
+
+      var ava = PB.bee.avaList[ PB.now ]
+
+      //if ( PB.book.c.length == 0 ){
+      PB.book.c.push( chapter( ava.name ) )
+
+      //}else{
+      //}
+    }
+    
+    
     //most important :: we git this from the browser
     if (data.timestamp != null ) timestamp(data.timestamp)
     if (data.advance != null ) advance(data.advance)
@@ -1805,6 +1810,8 @@ var Bot = function (src) {
       pb.list.push( a )
     })
 
+    pb.list.push( PB.book )
+
    block = 3;
 
   //  var vrb = FS.readFileSync('./2-dat/lex/vrb.txt').toString().split('\n')
@@ -2032,6 +2039,7 @@ var Bot = function (src) {
   var awake = () => {
 
     SIGH.on(E.UPDATE, update)
+    setTimeout( ()=> action(0) , 333 )
 
   }
 

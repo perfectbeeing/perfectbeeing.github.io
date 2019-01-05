@@ -1172,7 +1172,7 @@ var Bot = function () {
 
     if ( data.txt != null ){
 
-      PB.book.c.p.push( data.txt )
+      PB.book.c[0].push( data.txt )
 
     }
     

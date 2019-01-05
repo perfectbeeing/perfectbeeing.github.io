@@ -2039,7 +2039,7 @@ var Bot = function (src) {
   var awake = () => {
 
     SIGH.on(E.UPDATE, update)
-    setTimeout( ()=> action(0) , 333 )
+    //setTimeout( ()=> action(0) , 333 )
 
   }
 

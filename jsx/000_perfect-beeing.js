@@ -1036,9 +1036,6 @@ var Bot = function () {
 
   if( !LOCAL) PB.bee = JSON.parse( PB.bee )
 
- //story related items
- //working class hotel 
-
   var glp0 = {}
   glp0.t = 'Turn to Your Right'
   glp0.c = [
@@ -1055,7 +1052,8 @@ var Bot = function () {
   
 
 
-  PB.story = [ glp0 , glp1 ];
+  PB.story = [ glp1 ];
+  PB.chapter = glop0;
     
   PB.pool = 4;
   PB.scale = 1;

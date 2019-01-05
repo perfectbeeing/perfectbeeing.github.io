@@ -396,6 +396,9 @@ var Bot = function () {
       return SIGH.emit(E.PROGRESS_UPDATE, ava);
     }
 
+
+    SIGH.emit( E.PRESENT, { txt: ava.be.history[0]  } )
+
     //act = act();
 
     //if (act.over.length == 0 ) {
@@ -1165,6 +1168,12 @@ var Bot = function () {
 
       //}else{
       //}
+    }
+
+    if ( data.txt != null ){
+
+      PB.book.c.p.push( data.txt )
+
     }
     
     

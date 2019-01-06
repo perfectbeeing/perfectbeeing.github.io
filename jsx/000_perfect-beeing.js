@@ -84,9 +84,13 @@ var Bot = function (dev) {
 
     var rate = 10;
 
-    for (var i = 0; i < rate; i++) {
-      SIGH.emit(E.PROGRESS, FATE.pick(PB.bee.avaList))
-    }
+
+    SIGH.emit(E.PROGRESS, PB.bee.avaList[ PB.now ] )
+
+
+    //for (var i = 0; i < rate; i++) {
+    //  SIGH.emit(E.PROGRESS, FATE.pick(PB.bee.avaList))
+   // }
 
     //var ava = FATE.pick( PB.botList )
     //trace("you have found " + ava.nom )
@@ -1164,7 +1168,7 @@ var Bot = function () {
       var ava = PB.bee.avaList[ PB.now ]
 
       //if ( PB.book.c.length == 0 ){
-      PB.book.c.push( chapter( ava.name ) )
+      PB.book.c.unshift( chapter( ava.name ) )
 
       //}else{
       //}
@@ -1172,7 +1176,9 @@ var Bot = function () {
 
     if ( data.txt != null ){
 
-      PB.book.c[0].push( data.txt )
+      if (PB.book.c[0] == null) return
+
+      PB.book.c[0].p.push( data.txt )
 
     }
     
@@ -1819,7 +1825,10 @@ var Bot = function (src) {
       pb.list.push( a )
     })
 
+
     pb.list.push( PB.book )
+
+    
 
    block = 3;
 

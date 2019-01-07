@@ -2,7 +2,8 @@
 var Bot = function (dev) {
 
   var que = [];
-
+  
+  var drama = require('./01_drama-manager')();
   var station = require('./01_hallucination-station')();
 
   var awake = () => {
@@ -113,7 +114,72 @@ var Bot = function (dev) {
 };
 
 exports = module.exports = Bot;
-},{"./01_hallucination-station":2}],2:[function(require,module,exports){
+},{"./01_drama-manager":2,"./01_hallucination-station":3}],2:[function(require,module,exports){
+var Bot = function (dev) {
+
+
+  var awake = () => {
+
+    SIGH.removeListener(E.AWAKE, awake);    
+
+    self.DAWN = '201901061453';
+    self.ACTION = '201901061454';
+    self.HORIZON = '201901061455';
+
+    SIGH.on ( E.ACTION, spin )
+    SIGH.on( E.DAWN, dawn )
+    SIGH.on( E.HORIZON, horizon )
+
+  };
+
+  var dawn = ( ava ) =>{
+
+    trace("DAWN " + ava.nom )
+
+  }
+
+
+  var spin = ( ava ) => {
+
+    trace("state " + ava.state )
+    var plot = ava.be.plot[ ava.state ]
+
+    if ( plot == null ) return trace("you have no plot ")
+    var text = ava.be.text[ plot ]
+    if ( text == null ) text = ['alligator'];
+
+    if ( text.length >= 1 ) text = ava.be.text[plot].pop()
+    else text = '.'
+    //var now = ava.be.history[0];
+    //now = ava.be.plots[ now ][0]
+
+    //var textList = ava.be.text[ now ]
+
+    //if ( textList != null  ) text = FATE.pick( textList )
+  SIGH.emit( E.PRESENT, {txt: text })
+
+
+
+  };
+
+  var horizon = ( ava ) =>{
+
+    trace("horicon" + ava.nom )
+
+  }
+ 
+  // SIGH.on(E.AWAKE, awake);
+
+  awake()
+
+  //if ( dev ) awake()
+  //else 
+
+  return self;
+};
+
+exports = module.exports = Bot;
+},{}],3:[function(require,module,exports){
 var Bot = function() {
   var self = new PIXI.Container();
   var surfaceID, width, height;
@@ -228,7 +294,7 @@ var Bot = function() {
 
 exports = module.exports = Bot;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 (function (global){
 var Bot = function () {
 
@@ -286,7 +352,7 @@ var Bot = function () {
 
 exports = module.exports = Bot;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../3-vew/000-App/000-App":14,"../00_gam/00_story":1,"./00_routes":4}],4:[function(require,module,exports){
+},{"../../3-vew/000-App/000-App":15,"../00_gam/00_story":1,"./00_routes":5}],5:[function(require,module,exports){
 var Bot = function() {
   
 
@@ -342,7 +408,7 @@ var Bot = function() {
 
 exports = module.exports = Bot;
 
-},{"../../3-vew/v-001-Story/v-001-Story":16,"../../3-vew/v-004-Bitmap/v-004-Bitmap":17,"../../3-vew/v-010-Timecode/v-010-Timecode":19,"../../3-vew/v-050-Persona/v-050-Persona":20}],5:[function(require,module,exports){
+},{"../../3-vew/v-001-Story/v-001-Story":17,"../../3-vew/v-004-Bitmap/v-004-Bitmap":18,"../../3-vew/v-010-Timecode/v-010-Timecode":20,"../../3-vew/v-050-Persona/v-050-Persona":21}],6:[function(require,module,exports){
 (function (process){
 var Bot = function () {
   var self = {};
@@ -401,7 +467,10 @@ var Bot = function () {
     }
 
 
-    SIGH.emit( E.PRESENT, { txt: ava.be.history[0]  } )
+   
+
+
+    //SIGH.emit( E.PRESENT, { txt: ava.be.history[0]  } )
 
     //act = act();
 
@@ -411,6 +480,7 @@ var Bot = function () {
     //}
 
     //act.over(ava);
+    SIGH.emit( E.HORIZON, ava )
     reset(ava)
     //act = null;
 
@@ -502,6 +572,7 @@ var Bot = function () {
 
     ava.be.thoughts[ava.state] = Number( ava.be.thoughts[ava.state] ) + 1;
     //act.spin(ava);
+    SIGH.emit( E.ACTION, ava )
 
     ava.progress = ava.state;
 
@@ -551,7 +622,7 @@ var Bot = function () {
 
 exports = module.exports = Bot;
 }).call(this,require('_process'))
-},{"_process":82}],6:[function(require,module,exports){
+},{"_process":83}],7:[function(require,module,exports){
 var Bot = function (src) {
 
   var self = {};
@@ -592,7 +663,7 @@ var Bot = function (src) {
 exports = module.exports = Bot;
 
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var Bot = function (src) {
 
   var self = {};
@@ -620,7 +691,7 @@ var Bot = function (src) {
 exports = module.exports = Bot;
 
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var Bot = function () {
 
   var self = {};
@@ -732,7 +803,7 @@ var Bot = function () {
 }
 
 exports = module.exports = Bot;
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var Bot = function () {
 
   var self = {};
@@ -757,6 +828,8 @@ var Bot = function () {
     //var act = action( id )
     if (act == null) return trace("ACt " + ava.choice + ' not present')
     //act.awake( ava );
+    SIGH.emit( E.DAWN, ava )
+
     var now = ava.time.now;
     var next = MOMENT(now);
     
@@ -773,7 +846,7 @@ var Bot = function () {
 }
 
 exports = module.exports = Bot;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (global){
 var Bot = function(setup) {
   var EventEmitter = require("events").EventEmitter;
@@ -961,7 +1034,7 @@ var Bot = function(setup) {
 exports = module.exports = Bot;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../EVENT":13,"chance/":31,"dot":35,"events":36,"moment":78,"string":103}],11:[function(require,module,exports){
+},{"../EVENT":14,"chance/":32,"dot":36,"events":37,"moment":79,"string":104}],12:[function(require,module,exports){
 (function (global){
 var Bot = function (yrs, mon, day, hrs, min, sec) {
 
@@ -1034,7 +1107,7 @@ exports = module.exports = Bot;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"events":36}],12:[function(require,module,exports){
+},{"events":37}],13:[function(require,module,exports){
 (function (global){
 var Bot = function () {
 
@@ -1049,7 +1122,7 @@ var Bot = function () {
   glp0.t = 'Perfect Beeing';
   glp0.c = [];
 
-  var chapter = ( h, p )=> { return {h:h, p:[]} } 
+  var chapter = ( h, p )=> { return {h:h + PB.timecode  , p:[]} } 
 
   //{h:"Header", p:['here goes somthing']},
   //{h:"Header", p:['here goes somthing']},
@@ -1170,7 +1243,7 @@ var Bot = function () {
       var ava = PB.bee.avaList[ PB.now ]
 
       //if ( PB.book.c.length == 0 ){
-      PB.book.c.unshift( chapter( ava.name ) )
+      PB.book.c.push( chapter( ava.name ) )
 
       //}else{
       //}
@@ -1184,7 +1257,7 @@ var Bot = function () {
       doc.normalize()
       var wrd = doc.out('text')
 
-      PB.book.c[0].p[0] += wrd + ' ';
+      PB.book.c[ PB.book.c.length - 1 ].p[0] += wrd + ' ';
       
 
     }
@@ -1284,13 +1357,17 @@ var Bot = function () {
 
 exports = module.exports = Bot;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../local/dat/000_perfect-beeing.json":22,"compromise":32}],13:[function(require,module,exports){
+},{"../local/dat/000_perfect-beeing.json":23,"compromise":33}],14:[function(require,module,exports){
 "use strict";
 
 var EventID = function() {
   var self = {};
 
   self.TRACE = "201812061831";
+  
+  self.DAWN = '201901061453';
+  self.ACTION = '201901061454';
+  self.HORIZON = '201901061455';
 
   self.ACTION_COMPLETE = '201901031051';
 
@@ -1596,7 +1673,7 @@ var EventID = function() {
 
 exports = module.exports = EventID;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var Bot = function (src) {
 
   var template = '000-App';
@@ -1609,6 +1686,7 @@ var Bot = function (src) {
   var AppBar = require('../v-000-App-Bar/v-000-App-Bar')()
   var Action = require('../v-005-Action/v-005-Action')()
   var Timecode = require('../v-010-Timecode/v-010-Timecode')()
+  var Persona = require('../v-050-Persona/v-050-Persona')()
   
 
   var awake = () => {
@@ -1641,7 +1719,8 @@ var Bot = function (src) {
     components: {
       "app-bar": AppBar,
       "action": Action,
-      'timecode':Timecode
+      'timecode':Timecode,
+      'persona':Persona
     },
     methods: {
       spin: spin
@@ -1653,7 +1732,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{"../v-000-App-Bar/v-000-App-Bar":15,"../v-005-Action/v-005-Action":18,"../v-010-Timecode/v-010-Timecode":19}],15:[function(require,module,exports){
+},{"../v-000-App-Bar/v-000-App-Bar":16,"../v-005-Action/v-005-Action":19,"../v-010-Timecode/v-010-Timecode":20,"../v-050-Persona/v-050-Persona":21}],16:[function(require,module,exports){
 var Bot = function (src) {
 
   var template = 'v-000-App-Bar';
@@ -1779,7 +1858,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var Bot = function (src) {
 
   var template = 'v-001-Story';
@@ -1793,15 +1872,13 @@ var Bot = function (src) {
   else template = '#' + template;
 
 
-  
   var pb  = {}
   pb.view = 1;
   pb.list = [];
+  pb.book = {};
   
-
   var surface;
 
-  
   var awake = () => {
 
     SIGH.emit(E.AWAKE)
@@ -1813,7 +1890,7 @@ var Bot = function (src) {
 
   var turn = () =>{
 
-    trace("turn turn turn ")
+   // trace("turn turn turn ")
 
   }
   
@@ -1828,14 +1905,14 @@ var Bot = function (src) {
 
     pb.list = [];
 
-    PB.story.forEach( ( a ) =>{
-      pb.list.push( a )
-    })
+   // PB.story.forEach( ( a ) =>{
+   //   pb.list.push( a )
+   // })
 
 
-    pb.list.push( PB.book )
+    pb.book = PB.book;
 
-    
+  
 
    block = 3;
 
@@ -1869,7 +1946,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var Bot = function (src) {
 
   var template = 'v-004-Bitmap';
@@ -1924,7 +2001,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{"js-object-pretty-print":76}],18:[function(require,module,exports){
+},{"js-object-pretty-print":77}],19:[function(require,module,exports){
 var Bot = function (src) {
 
   var template = 'v-005-Action';
@@ -1936,26 +2013,26 @@ var Bot = function (src) {
 
   if (LOCAL) template = FS.readFileSync(localFile).toString()
   else template = '#' + template;
-  
-  var pb  = {}
+
+  var pb = {}
   pb.view = 1;
   pb.key = 0;
-  pb.list = [ 'zero', 'one' ];
+  pb.list = ['zero', 'one'];
 
   var awake = () => {
 
     SIGH.emit(E.AWAKE)
-    SIGH.on( E.UPDATE, spin )
+    SIGH.on(E.UPDATE, spin)
 
-    document.body.onkeyup = action 
-    
+    document.body.onkeyup = action
+
 
   }
 
-  var action = ( e ) =>{
+  var action = (e) => {
 
     if (e.keyCode == 32) pb.key = 'space'
-        
+
     if (e.keyCode == 38) pb.key = 'up'
     if (e.keyCode == 37) pb.key = 'left'
     if (e.keyCode == 39) pb.key = 'right'
@@ -1967,12 +2044,27 @@ var Bot = function (src) {
     //if (e.keyCode == 66) refresh( 3 );
 
   }
-  
-
-  var spin = () => { 
 
 
-  
+  var spin = () => {
+
+    pb.list = []
+
+    var ava = PB.bee.avaList[PB.now]
+
+    if (ava == null) return
+    if (ava.choiceList == null) return
+
+    ava.choiceList.forEach((a) => {
+
+      var lab = ava.be.plot[ a ][0]
+
+      pb.list.push( lab )
+
+
+    })
+
+    if ( pb.list[0] == pb.list[1]  )pb.list = [ pb.list[0] ] 
   }
 
   var self = Vue.component(templateID, {
@@ -1987,7 +2079,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var Bot = function (src) {
   
   var template = 'v-010-Timecode';
@@ -2045,7 +2137,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var Bot = function (src) {
 
   var template = 'v-050-Persona';
@@ -2084,7 +2176,7 @@ var Bot = function (src) {
 
     SIGH.emit( E.PRESENT, {now: pb.dex })
 
-    ROUTER.replace( '/bitmap', complete, abort)
+    //ROUTER.replace( '/bitmap', complete, abort)
 
     trace("emiting sfx ")
     SIGH.emit(E.SFX)
@@ -2131,7 +2223,7 @@ var Bot = function (src) {
 };
 
 exports = module.exports = Bot;
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (process,global){
 var Bot = function (src) {
     var self = {};
@@ -2205,10 +2297,10 @@ var Bot = function (src) {
   var bot = Bot();
   setTimeout(() => SIGH.emit(E.AWAKE), 111)
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../0-bee/01_app/00_app":3,"../0-bee/03_bot/00_act-progress":5,"../0-bee/03_bot/00_bot-choose":6,"../0-bee/03_bot/00_bot-time":7,"../0-bee/03_bot/00_enable-choice-list":8,"../0-bee/03_bot/16_act-select":9,"../0-bee/99_int/0-sigh":10,"../0-bee/99_int/1-spin":11,"../0-bee/BEEING":12,"../0-bee/EVENT":13,"../local/dat/000_perfect-beeing.json":22,"_process":82,"fs-extra":51}],22:[function(require,module,exports){
-module.exports=module.exports = "{\"be\":[\"sigh\",\"spin\",\"timecode\",\"beeing\"],\"00-live\":[\"\"],\"04-blessed\":[\"simon\",\"rosa\",\"kbar\",\"simone\"],\"simon\":[\"simon-beeing\",\"04-blessed\",\"cow-hand\"],\"rosa\":[\"rosa-beeing\",\"04-blessed\",\"reptile-ruler\"],\"kbar\":[\"kbar-mckilligutti\",\"04-blessed\",\"reptile-rancher\"],\"simone\":[\"simone-beeing\",\"04-blessed\",\"golden-child\"],\"beeing\":[\"00-moat\",\"01-bits\",\"02-supernal\",\"03-mistaken\",\"04-blessed\",\"05-bounded\",\"06-primal\",\"07-functional\",\"08-structural\",\"09-peopled\",\"10-institional\",\"11-political\",\"12-commerical\",\"13-tournamental\",\"14-emotional\",\"15-natural\",\"16-cultural\"],\"srcLOC\":\"./local/dat/000_perfect-beeing.json\",\"avaList\":[{\"idx\":\"idx\",\"name\":\"simon\",\"nom\":\"simon-beeing\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#d29b83\",\"rgb\":\"210-155-131\",\"flv\":\"dusty-coral\",\"pwr\":47,\"src\":\"0-26-38-18\"},\"about\":{\"code\":0,\"being\":\"04-blessed\",\"role\":\"cow-hand\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00000\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":8,\"atk\":2,\"esc\":9,\"def\":4,\"str\":9,\"dmg\":3,\"rst\":8,\"pwr\":2},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"cow-00\":\"0\",\"cow-01\":\"0\",\"cow-02\":\"0\",\"cow-03\":\"0\",\"cow-01-00\":\"0\",\"cow-01-01\":\"0\",\"cow-01-00-00\":\"0\",\"cow-01-00-01\":\"0\",\"cow-01-00-02\":\"0\",\"cow-03-00\":\"0\",\"cow-03-01\":\"0\",\"cow-03-01-00\":\"0\",\"cow-03-01-01\":\"0\",\"cow-03-01-02\":\"0\"},\"forms\":{\"be\":[\"cow-00\",\"cow-01\",\"cow-02\",\"cow-03\"],\"cow-01\":[\"cow-01-00\",\"cow-01-01\"],\"cow-01-00\":[\"cow-01-00-00\",\"cow-01-00-01\",\"cow-01-00-02\"],\"cow-03\":[\"cow-03-00\",\"cow-03-01\"],\"cow-03-01\":[\"cow-03-01-00\",\"cow-03-01-01\",\"cow-03-01-02\"]},\"actions\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-beon\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-beon\",\"length\":36},\"moment\":99,\"pattern\":{\"nom\":\"water-persimmon\",\"hex\":\"B58799\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-00.json\",\"label\":\"cow-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-00on\",\"length\":40},\"moment\":122,\"pattern\":{\"nom\":\"washed-out-crimson\",\"hex\":\"FFA6B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00-00.json\",\"label\":\"cow-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-00on\",\"length\":46},\"moment\":8,\"pattern\":{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00-01.json\",\"label\":\"cow-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-01on\",\"length\":46},\"moment\":15,\"pattern\":{\"nom\":\"spirit-mountain\",\"hex\":\"6BB3A2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00-02.json\",\"label\":\"cow-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-02on\",\"length\":46},\"moment\":12,\"pattern\":{\"nom\":\"simpsons-yellow\",\"hex\":\"FF0FD9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00.json\",\"label\":\"cow-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00on\",\"length\":43},\"moment\":59,\"pattern\":{\"nom\":\"rusted-crimson\",\"hex\":\"617A91\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-01.json\",\"label\":\"cow-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-01on\",\"length\":43},\"moment\":84,\"pattern\":{\"nom\":\"mystic-melon\",\"hex\":\"EDC2FC\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01.json\",\"label\":\"cow-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01on\",\"length\":40},\"moment\":123,\"pattern\":{\"nom\":\"pink-persimmon\",\"hex\":\"FF96AD\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-02\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-02.json\",\"label\":\"cow-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-02on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-02on\",\"length\":40},\"moment\":114,\"pattern\":{\"nom\":\"rusted-crimson\",\"hex\":\"617A91\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-00.json\",\"label\":\"cow-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-00on\",\"length\":43},\"moment\":128,\"pattern\":{\"nom\":\"teri-gaki-persimmon\",\"hex\":\"EB3D6B\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01-00.json\",\"label\":\"cow-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-00on\",\"length\":46},\"moment\":142,\"pattern\":{\"nom\":\"water-persimmon\",\"hex\":\"B58799\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01-01.json\",\"label\":\"cow-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-01on\",\"length\":46},\"moment\":19,\"pattern\":{\"nom\":\"shi-zi-cheng-persimmon\",\"hex\":\"E338B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01-02.json\",\"label\":\"cow-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-02on\",\"length\":46},\"moment\":20,\"pattern\":{\"nom\":\"hint-of-sand-diamond\",\"hex\":\"FADBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01.json\",\"label\":\"cow-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01on\",\"length\":43},\"moment\":138,\"pattern\":{\"nom\":\"persimmon-orange\",\"hex\":\"F52978\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03.json\",\"label\":\"cow-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03on\",\"length\":40},\"moment\":35,\"pattern\":{\"nom\":\"mystic-maroon\",\"hex\":\"ADB363\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"plot\":{\"cow-00\":[\"cowing-beginning\"],\"cow-01\":[\"cowing-breakdown\"],\"cow-02\":[\"fog-of-cowing\"],\"cow-03\":[\"cowing-business\"],\"cow-01-00\":[\"think-about-cows\"],\"cow-01-01\":[\"act-about-cows\"],\"cow-01-00-00\":[\"angerly\"],\"cow-01-00-01\":[\"clearly\"],\"cow-01-00-02\":[\"meanly\"],\"cow-03-00\":[\"check-locations\"],\"cow-03-01\":[\"collect-feed-buckets\"],\"cow-03-01-00\":[\"use-cotton-seed-slopily\"],\"cow-03-01-01\":[\"use-cotton-seed-perfectly\"],\"cow-03-01-02\":[\"use-cotton-seed-accuratly\"]},\"history\":[]},\"pattern\":[{\"nom\":\"ryus-kimono\",\"hex\":\"F2EDFC\"},{\"nom\":\"glazed-persimmon\",\"hex\":\"D4425E\"},{\"nom\":\"pale-persimmon\",\"hex\":\"D4D1CF\"},{\"nom\":\"persimmon\",\"hex\":\"E63BAD\"},{\"nom\":\"persimmon-fade\",\"hex\":\"F794C4\"},{\"nom\":\"persimmon-juice\",\"hex\":\"945E75\"},{\"nom\":\"persimmon-orange\",\"hex\":\"F52978\"},{\"nom\":\"persimmon-varnish\",\"hex\":\"9E5C8A\"},{\"nom\":\"pink-persimmon\",\"hex\":\"FF96AD\"},{\"nom\":\"simpson-surprise\",\"hex\":\"82CDFA\"},{\"nom\":\"simpsons-yellow\",\"hex\":\"FF0FD9\"},{\"nom\":\"teri-gaki-persimmon\",\"hex\":\"EB3D6B\"},{\"nom\":\"water-persimmon\",\"hex\":\"B58799\"},{\"nom\":\"bursting-lemon\",\"hex\":\"FC85E6\"},{\"nom\":\"crushed-cinnamon\",\"hex\":\"B882A1\"},{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},{\"nom\":\"hint-of-sand-diamond\",\"hex\":\"FADBF7\"},{\"nom\":\"light-sand-diamond\",\"hex\":\"FACFF2\"},{\"nom\":\"sand-diamond\",\"hex\":\"FABFED\"},{\"nom\":\"satoimo-brown\",\"hex\":\"6654A8\"},{\"nom\":\"slippery-salmon\",\"hex\":\"F76682\"},{\"nom\":\"spiced-cinnamon\",\"hex\":\"808FB5\"},{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},{\"nom\":\"first-impression\",\"hex\":\"F5F2F0\"},{\"nom\":\"polished-limestone\",\"hex\":\"DBE8F7\"},{\"nom\":\"rusted-crimson\",\"hex\":\"617A91\"},{\"nom\":\"shi-zi-cheng-persimmon\",\"hex\":\"E338B3\"},{\"nom\":\"silvery-moon\",\"hex\":\"E6F5FF\"},{\"nom\":\"sixteen-million-pink\",\"hex\":\"FCFC03\"},{\"nom\":\"spartan-crimson\",\"hex\":\"9E241F\"},{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},{\"nom\":\"washed-out-crimson\",\"hex\":\"FFA6B3\"},{\"nom\":\"celestial-moon\",\"hex\":\"E3CFED\"},{\"nom\":\"lasting-impression\",\"hex\":\"B38C91\"},{\"nom\":\"midspring-morning\",\"hex\":\"D0D0D6\"},{\"nom\":\"mystic-melon\",\"hex\":\"EDC2FC\"},{\"nom\":\"senior-moment\",\"hex\":\"FCC9ED\"},{\"nom\":\"sensaimidori-green\",\"hex\":\"379DD4\"},{\"nom\":\"sharegaki-persimmon\",\"hex\":\"FF6BA3\"},{\"nom\":\"shrimp-boudin\",\"hex\":\"DBBDDE\"},{\"nom\":\"slice-of-watermelon\",\"hex\":\"E08C78\"},{\"nom\":\"spanish-crimson\",\"hex\":\"E6541C\"},{\"nom\":\"spirit-mountain\",\"hex\":\"6BB3A2\"},{\"nom\":\"still-morning\",\"hex\":\"FFE0F7\"},{\"nom\":\"usugaki-persimmon\",\"hex\":\"FC75A6\"},{\"nom\":\"hashibami-brown\",\"hex\":\"BF94DB\"},{\"nom\":\"mystic-maroon\",\"hex\":\"ADB363\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":0,\"code\":[\"simon-beeing\",\"04-blessed\",\"cow-hand\"],\"clr\":\"simon : ryus-kimono, glazed-persimmon, pale-persimmon, persimmon, persimmon-fade, persimmon-juice, persimmon-orange, persimmon-varnish, pink-persimmon, simpson-surprise, simpsons-yellow, teri-gaki-persimmon, water-persimmon, bursting-lemon, crushed-cinnamon, fresh-pink-lemonade, hint-of-sand-diamond, light-sand-diamond, sand-diamond, satoimo-brown, slippery-salmon, spiced-cinnamon, crushed-limestone, first-impression, polished-limestone, rusted-crimson, shi-zi-cheng-persimmon, silvery-moon, sixteen-million-pink, spartan-crimson, stacked-limestone, washed-out-crimson, celestial-moon, lasting-impression, midspring-morning, mystic-melon, senior-moment, sensaimidori-green, sharegaki-persimmon, shrimp-boudin, slice-of-watermelon, spanish-crimson, spirit-mountain, still-morning, usugaki-persimmon, hashibami-brown, mystic-maroon,\",\"src\":\"017-038-027-001\",\"action\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-beon\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-beon\",\"length\":36},\"moment\":99,\"pattern\":{\"nom\":\"water-persimmon\",\"hex\":\"B58799\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-00.json\",\"label\":\"cow-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-00on\",\"length\":40},\"moment\":122,\"pattern\":{\"nom\":\"washed-out-crimson\",\"hex\":\"FFA6B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01.json\",\"label\":\"cow-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01on\",\"length\":40},\"moment\":123,\"pattern\":{\"nom\":\"pink-persimmon\",\"hex\":\"FF96AD\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-02\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-02.json\",\"label\":\"cow-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-02on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-02on\",\"length\":40},\"moment\":114,\"pattern\":{\"nom\":\"rusted-crimson\",\"hex\":\"617A91\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03.json\",\"label\":\"cow-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03on\",\"length\":40},\"moment\":35,\"pattern\":{\"nom\":\"mystic-maroon\",\"hex\":\"ADB363\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00.json\",\"label\":\"cow-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00on\",\"length\":43},\"moment\":59,\"pattern\":{\"nom\":\"rusted-crimson\",\"hex\":\"617A91\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-01.json\",\"label\":\"cow-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-01on\",\"length\":43},\"moment\":84,\"pattern\":{\"nom\":\"mystic-melon\",\"hex\":\"EDC2FC\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00-00.json\",\"label\":\"cow-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-00on\",\"length\":46},\"moment\":8,\"pattern\":{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00-01.json\",\"label\":\"cow-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-01on\",\"length\":46},\"moment\":15,\"pattern\":{\"nom\":\"spirit-mountain\",\"hex\":\"6BB3A2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-01-00-02.json\",\"label\":\"cow-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-01-00-02on\",\"length\":46},\"moment\":12,\"pattern\":{\"nom\":\"simpsons-yellow\",\"hex\":\"FF0FD9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-00.json\",\"label\":\"cow-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-00on\",\"length\":43},\"moment\":128,\"pattern\":{\"nom\":\"teri-gaki-persimmon\",\"hex\":\"EB3D6B\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01.json\",\"label\":\"cow-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01on\",\"length\":43},\"moment\":138,\"pattern\":{\"nom\":\"persimmon-orange\",\"hex\":\"F52978\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01-00.json\",\"label\":\"cow-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-00on\",\"length\":46},\"moment\":142,\"pattern\":{\"nom\":\"water-persimmon\",\"hex\":\"B58799\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01-01.json\",\"label\":\"cow-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-01on\",\"length\":46},\"moment\":19,\"pattern\":{\"nom\":\"shi-zi-cheng-persimmon\",\"hex\":\"E338B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"cow-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/cow-hand/cow-03-01-02.json\",\"label\":\"cow-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-cow-hand-cow-03-01-02on\",\"length\":46},\"moment\":20,\"pattern\":{\"nom\":\"hint-of-sand-diamond\",\"hex\":\"FADBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"save\":\"./2-dat/bot/04-blessed/cow-hand/simon.json\"},{\"idx\":\"idx\",\"name\":\"rosa\",\"nom\":\"rosa-beeing\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#ad9f8f\",\"rgb\":\"173-159-143\",\"flv\":\"dried-grass\",\"pwr\":162,\"src\":\"0-8-17-32\"},\"about\":{\"code\":0,\"being\":\"04-blessed\",\"role\":\"reptile-ruler\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00001\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":9,\"atk\":5,\"esc\":9,\"def\":4,\"str\":9,\"dmg\":3,\"rst\":9,\"pwr\":3},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"gator-00\":\"0\",\"gator-01\":\"0\",\"gator-02\":\"0\",\"gator-03\":\"0\",\"gator-01-00\":\"0\",\"gator-01-01\":\"0\",\"gator-01-00-00\":\"0\",\"gator-01-00-01\":\"0\",\"gator-01-00-02\":\"0\",\"gator-03-00\":\"0\",\"gator-03-01\":\"0\",\"gator-03-01-00\":\"0\",\"gator-03-01-01\":\"0\",\"gator-03-01-02\":\"0\"},\"forms\":{\"be\":[\"gator-00\",\"gator-01\",\"gator-02\",\"gator-03\"],\"gator-01\":[\"gator-01-00\",\"gator-01-01\"],\"gator-01-00\":[\"gator-01-00-00\",\"gator-01-00-01\",\"gator-01-00-02\"],\"gator-03\":[\"gator-03-00\",\"gator-03-01\"],\"gator-03-01\":[\"gator-03-01-00\",\"gator-03-01-01\",\"gator-03-01-02\"]},\"actions\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-beon\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-beon\",\"length\":41},\"moment\":41,\"pattern\":{\"nom\":\"harrows-gate\",\"hex\":\"7EE0DE\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-00.json\",\"label\":\"gator-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-00on\",\"length\":47},\"moment\":99,\"pattern\":{\"nom\":\"heirloom-shade\",\"hex\":\"DBF5FA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00-00.json\",\"label\":\"gator-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-00on\",\"length\":53},\"moment\":49,\"pattern\":{\"nom\":\"frosted-almond\",\"hex\":\"D1D1EB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00-01.json\",\"label\":\"gator-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-01on\",\"length\":53},\"moment\":130,\"pattern\":{\"nom\":\"cross-my-heart\",\"hex\":\"AD423D\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00-02.json\",\"label\":\"gator-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-02on\",\"length\":53},\"moment\":34,\"pattern\":{\"nom\":\"paperboys-lawn\",\"hex\":\"242040\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00.json\",\"label\":\"gator-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00on\",\"length\":50},\"moment\":80,\"pattern\":{\"nom\":\"narcomedusae\",\"hex\":\"E6F0FC\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-01.json\",\"label\":\"gator-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-01on\",\"length\":50},\"moment\":110,\"pattern\":{\"nom\":\"aerostatics\",\"hex\":\"357350\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01.json\",\"label\":\"gator-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01on\",\"length\":47},\"moment\":30,\"pattern\":{\"nom\":\"crazy-horse-mountain\",\"hex\":\"E8E6F0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-02.json\",\"label\":\"gator-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-02on\",\"length\":47},\"moment\":79,\"pattern\":{\"nom\":\"rose-ashes\",\"hex\":\"B5F0F2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-00.json\",\"label\":\"gator-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-00on\",\"length\":50},\"moment\":37,\"pattern\":{\"nom\":\"turbinado-sugar\",\"hex\":\"FA5CBF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01-00.json\",\"label\":\"gator-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-00on\",\"length\":53},\"moment\":40,\"pattern\":{\"nom\":\"frosted-sugar\",\"hex\":\"D6E8E0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01-01.json\",\"label\":\"gator-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-01on\",\"length\":53},\"moment\":83,\"pattern\":{\"nom\":\"frosty-dawn\",\"hex\":\"CABFDE\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01-02.json\",\"label\":\"gator-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-02on\",\"length\":53},\"moment\":53,\"pattern\":{\"nom\":\"crowshead\",\"hex\":\"1C4AA3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01.json\",\"label\":\"gator-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01on\",\"length\":50},\"moment\":22,\"pattern\":{\"nom\":\"university-of-tennessee-orange\",\"hex\":\"F70082\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03.json\",\"label\":\"gator-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03on\",\"length\":47},\"moment\":142,\"pattern\":{\"nom\":\"rosencavalier\",\"hex\":\"BDC4BA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"plot\":{\"gator-00\":[\"gatoring-beginning\"],\"gator-01\":[\"gatoring-breakdown\"],\"gator-02\":[\"fog-of-gatoring\"],\"gator-03\":[\"gatoring-business\"],\"gator-01-00\":[\"think-about-gators\"],\"gator-01-01\":[\"act-about-gators\"],\"gator-01-00-00\":[\"angerly\"],\"gator-01-00-01\":[\"clearly\"],\"gator-01-00-02\":[\"meanly\"],\"gator-03-00\":[\"check-locations\"],\"gator-03-01\":[\"collect-feed-buckets\"],\"gator-03-01-00\":[\"use-cotton-seed-slopily\"],\"gator-03-01-01\":[\"use-cotton-seed-perfectly\"],\"gator-03-01-02\":[\"use-cotton-seed-accuratly\"]},\"history\":[]},\"pattern\":[{\"nom\":\"rosa\",\"hex\":\"FFA687\"},{\"nom\":\"ponderosa-pine\",\"hex\":\"208581\"},{\"nom\":\"rosarian\",\"hex\":\"FAE0F0\"},{\"nom\":\"across-the-bay\",\"hex\":\"B3C4BE\"},{\"nom\":\"aerospace-orange\",\"hex\":\"FF004F\"},{\"nom\":\"aerostatics\",\"hex\":\"357350\"},{\"nom\":\"ambrosia\",\"hex\":\"D3CAE8\"},{\"nom\":\"ambrosia-ivory\",\"hex\":\"FFEBF5\"},{\"nom\":\"ambrosia-salad\",\"hex\":\"F5DBE8\"},{\"nom\":\"barossa\",\"hex\":\"45D4AB\"},{\"nom\":\"cross-my-heart\",\"hex\":\"AD423D\"},{\"nom\":\"crossroads\",\"hex\":\"EDB0E3\"},{\"nom\":\"frosted-almond\",\"hex\":\"D1D1EB\"},{\"nom\":\"frosted-garden\",\"hex\":\"E1CCE8\"},{\"nom\":\"frosted-glass\",\"hex\":\"E9F7F7\"},{\"nom\":\"frosted-grape\",\"hex\":\"D4FCEB\"},{\"nom\":\"frosted-lilac\",\"hex\":\"D3F5E9\"},{\"nom\":\"frosted-sugar\",\"hex\":\"D6E8E0\"},{\"nom\":\"frosting-cream\",\"hex\":\"FFEDFA\"},{\"nom\":\"frosty-dawn\",\"hex\":\"CABFDE\"},{\"nom\":\"frosty-day\",\"hex\":\"CBD4CB\"},{\"nom\":\"frosty-glade\",\"hex\":\"9FD2D4\"},{\"nom\":\"hint-of-frosted-sugar\",\"hex\":\"E8F0ED\"},{\"nom\":\"hint-of-frosty-dawn\",\"hex\":\"E1DAED\"},{\"nom\":\"hint-of-rose-aspect\",\"hex\":\"F5E8E8\"},{\"nom\":\"hint-of-rose-romantic\",\"hex\":\"F5EBED\"},{\"nom\":\"hiroshima-aquamarine\",\"hex\":\"806A80\"},{\"nom\":\"lavender-mosaic\",\"hex\":\"86FCED\"},{\"nom\":\"light-frosted-sugar\",\"hex\":\"DEEDE8\"},{\"nom\":\"light-frosty-dawn\",\"hex\":\"D8CCE6\"},{\"nom\":\"light-rose-aspect\",\"hex\":\"F5E0DE\"},{\"nom\":\"light-rose-romantic\",\"hex\":\"F2E3E8\"},{\"nom\":\"monstera-deliciosa\",\"hex\":\"75089C\"},{\"nom\":\"okroshka\",\"hex\":\"418FC4\"},{\"nom\":\"pastel-rose-tan\",\"hex\":\"E8D1E6\"},{\"nom\":\"patrinia-scabiosaefolia\",\"hex\":\"F2BAFF\"},{\"nom\":\"rose-ashes\",\"hex\":\"B5F0F2\"},{\"nom\":\"rose-aspect\",\"hex\":\"F2D6D1\"},{\"nom\":\"rose-branch\",\"hex\":\"80B5AB\"},{\"nom\":\"rose-colored-glasses\",\"hex\":\"E6D6DB\"},{\"nom\":\"rose-daphne\",\"hex\":\"FFDE9E\"},{\"nom\":\"rose-dawn\",\"hex\":\"B3B8BA\"},{\"nom\":\"rose-de-mai\",\"hex\":\"CCA3B3\"},{\"nom\":\"rose-dragee\",\"hex\":\"F0F0C2\"},{\"nom\":\"rose-madder\",\"hex\":\"E33D3D\"},{\"nom\":\"rose-marble\",\"hex\":\"CFF2E6\"},{\"nom\":\"rose-mauve\",\"hex\":\"B0D1DB\"},{\"nom\":\"rose-meadow\",\"hex\":\"C4CFC7\"},{\"nom\":\"rose-of-sharon\",\"hex\":\"AB4278\"},{\"nom\":\"rose-petal\",\"hex\":\"E6CFD6\"},{\"nom\":\"rose-pink-villa\",\"hex\":\"7D8073\"},{\"nom\":\"rose-quartz\",\"hex\":\"F7C7D1\"},{\"nom\":\"rose-romantic\",\"hex\":\"EDDBE0\"},{\"nom\":\"rose-shadow\",\"hex\":\"FAD1C7\"},{\"nom\":\"rose-stain\",\"hex\":\"D4E0DB\"},{\"nom\":\"rose-tan\",\"hex\":\"FAE6ED\"},{\"nom\":\"rose-tattoo\",\"hex\":\"E0A3BF\"},{\"nom\":\"rose-taupe\",\"hex\":\"8FA6A6\"},{\"nom\":\"rose-tea\",\"hex\":\"B5D1C2\"},{\"nom\":\"rose-vale\",\"hex\":\"AB8F75\"},{\"nom\":\"rose-vapor\",\"hex\":\"F2E0E6\"},{\"nom\":\"rose-water\",\"hex\":\"F5E0E3\"},{\"nom\":\"rosemary\",\"hex\":\"40AAAD\"},{\"nom\":\"rosencavalier\",\"hex\":\"BDC4BA\"},{\"nom\":\"roses-are-red\",\"hex\":\"AB6952\"},{\"nom\":\"rosetta\",\"hex\":\"BAADC4\"},{\"nom\":\"rosey-afterglow\",\"hex\":\"FAD1CC\"},{\"nom\":\"rosso-corsa\",\"hex\":\"D40000\"},{\"nom\":\"rosy-maple-moth\",\"hex\":\"FFEDC9\"},{\"nom\":\"terra-rosa\",\"hex\":\"BA8F8A\"},{\"nom\":\"aurometalsaurus\",\"hex\":\"6EDBD9\"},{\"nom\":\"bronze-sand\",\"hex\":\"E6ADD4\"},{\"nom\":\"brown-sand\",\"hex\":\"F76199\"},{\"nom\":\"morocco-sand\",\"hex\":\"EDDBF5\"},{\"nom\":\"prom-corsage\",\"hex\":\"E8FFD6\"},{\"nom\":\"strong-sage\",\"hex\":\"2B696E\"},{\"nom\":\"barbados-bay\",\"hex\":\"000000\"},{\"nom\":\"barbarossa\",\"hex\":\"A84F6B\"},{\"nom\":\"brown-mustard\",\"hex\":\"DE66C4\"},{\"nom\":\"brown-sugar\",\"hex\":\"A173B5\"},{\"nom\":\"brownish-orange\",\"hex\":\"CC2B96\"},{\"nom\":\"charolais-cattle\",\"hex\":\"F2F7FA\"},{\"nom\":\"chromis-damsel-blue\",\"hex\":\"83856A\"},{\"nom\":\"crocus-petal\",\"hex\":\"B9F0BD\"},{\"nom\":\"croissant\",\"hex\":\"C4ADDE\"},{\"nom\":\"crowshead\",\"hex\":\"1C4AA3\"},{\"nom\":\"dark-rose-tan\",\"hex\":\"D1B8BF\"},{\"nom\":\"frozen-custard\",\"hex\":\"FABFED\"},{\"nom\":\"frozen-statues\",\"hex\":\"E1FAF2\"},{\"nom\":\"hearty-hosta\",\"hex\":\"978BC9\"},{\"nom\":\"light-brown-sugar\",\"hex\":\"C7BFDE\"},{\"nom\":\"maple-brown-sugar\",\"hex\":\"A3ADDE\"},{\"nom\":\"narcomedusae\",\"hex\":\"E6F0FC\"},{\"nom\":\"primrose-garden\",\"hex\":\"F2A39C\"},{\"nom\":\"primrose-path\",\"hex\":\"FF61E3\"},{\"nom\":\"prophetic-sea\",\"hex\":\"81D4BC\"},{\"nom\":\"reno-sand\",\"hex\":\"B34A9E\"},{\"nom\":\"roasted-almond\",\"hex\":\"D1BDDB\"},{\"nom\":\"roasted-cashew\",\"hex\":\"91D4EB\"},{\"nom\":\"roasted-kona\",\"hex\":\"57A3BD\"},{\"nom\":\"roasted-pecan\",\"hex\":\"944A9C\"},{\"nom\":\"roasted-pistachio\",\"hex\":\"C99EE3\"},{\"nom\":\"roasted-sienna\",\"hex\":\"EB668A\"},{\"nom\":\"roasted-squash\",\"hex\":\"E65EB3\"},{\"nom\":\"rock-spray\",\"hex\":\"9E4A6E\"},{\"nom\":\"roller-coaster-chariot\",\"hex\":\"000000\"},{\"nom\":\"rolling-sea\",\"hex\":\"5BC2B2\"},{\"nom\":\"roman-snail\",\"hex\":\"A3E6E8\"},{\"nom\":\"rooibos-tea\",\"hex\":\"A33B5E\"},{\"nom\":\"rousseau-green\",\"hex\":\"173342\"},{\"nom\":\"royal-fuchsia\",\"hex\":\"C9B838\"},{\"nom\":\"san-carlos-plaza\",\"hex\":\"D9A6DB\"},{\"nom\":\"spiro-disco-ball\",\"hex\":\"0F0F0C\"},{\"nom\":\"stratford-sage\",\"hex\":\"8CCCF5\"},{\"nom\":\"strong-strawberry\",\"hex\":\"8A6173\"},{\"nom\":\"terracotta-sand\",\"hex\":\"D6B8DE\"},{\"nom\":\"troll-slayer-orange\",\"hex\":\"F54FAB\"},{\"nom\":\"tropical-cascade\",\"hex\":\"8CC9D4\"},{\"nom\":\"tropical-siesta\",\"hex\":\"DE85DE\"},{\"nom\":\"tropical-splash\",\"hex\":\"708A88\"},{\"nom\":\"yellow-green-grosbeak\",\"hex\":\"C843FA\"},{\"nom\":\"arrow-shaft\",\"hex\":\"5CA1DE\"},{\"nom\":\"black-dragons-caldron\",\"hex\":\"53DBBF\"},{\"nom\":\"bryopsida-green\",\"hex\":\"9F0DB5\"},{\"nom\":\"butterscotch-sundae\",\"hex\":\"DB9CD1\"},{\"nom\":\"coral-cornsnake\",\"hex\":\"E8DEBD\"},{\"nom\":\"crazy-horse-mountain\",\"hex\":\"E8E6F0\"},{\"nom\":\"crimson-strawberry\",\"hex\":\"9E7347\"},{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},{\"nom\":\"dragon-scale\",\"hex\":\"000000\"},{\"nom\":\"drakenhof-nightshade\",\"hex\":\"1F301C\"},{\"nom\":\"drifting-downstream\",\"hex\":\"60D0D6\"},{\"nom\":\"flirtatious-indigo-tea\",\"hex\":\"47A1E3\"},{\"nom\":\"friendly-homestead\",\"hex\":\"C7BAD6\"},{\"nom\":\"greenhouse-glass\",\"hex\":\"D8D3ED\"},{\"nom\":\"gryphonne-sepia-wash\",\"hex\":\"871F75\"},{\"nom\":\"harrows-gate\",\"hex\":\"7EE0DE\"},{\"nom\":\"heirloom-shade\",\"hex\":\"DBF5FA\"},{\"nom\":\"horizon-island\",\"hex\":\"CDE6F7\"},{\"nom\":\"norman-shaw-goldspar\",\"hex\":\"E89CD9\"},{\"nom\":\"orioles-orange\",\"hex\":\"FA144F\"},{\"nom\":\"outrageous-orange\",\"hex\":\"FF4A6E\"},{\"nom\":\"paperboys-lawn\",\"hex\":\"242040\"},{\"nom\":\"pharaohs-jade\",\"hex\":\"8482A1\"},{\"nom\":\"pharaohs-seas\",\"hex\":\"597571\"},{\"nom\":\"porpoise-place\",\"hex\":\"070F0D\"},{\"nom\":\"precious-nectar\",\"hex\":\"FF9CDE\"},{\"nom\":\"precious-pearls\",\"hex\":\"F2FCFF\"},{\"nom\":\"purple-mountains-majesty\",\"hex\":\"94D18A\"},{\"nom\":\"purple-mountains-majesty\",\"hex\":\"94D18A\"},{\"nom\":\"rhode-island-red\",\"hex\":\"9C8C96\"},{\"nom\":\"sacramento-state-green\",\"hex\":\"000000\"},{\"nom\":\"sargasso-sea\",\"hex\":\"35966F\"},{\"nom\":\"seriously-sand\",\"hex\":\"DBD1ED\"},{\"nom\":\"turbinado-sugar\",\"hex\":\"FA5CBF\"},{\"nom\":\"turquoise-cyan\",\"hex\":\"0E161C\"},{\"nom\":\"turquoise-panic\",\"hex\":\"31373B\"},{\"nom\":\"turquoise-sea\",\"hex\":\"6D7871\"},{\"nom\":\"turquoise-topaz\",\"hex\":\"131819\"},{\"nom\":\"university-of-tennessee-orange\",\"hex\":\"F70082\"},{\"nom\":\"vermillion-seabass\",\"hex\":\"965C61\"},{\"nom\":\"warm-croissant\",\"hex\":\"E3C9E6\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":1,\"code\":[\"rosa-beeing\",\"04-blessed\",\"reptile-ruler\"],\"clr\":\"rosa : rosa, ponderosa-pine, rosarian, across-the-bay, aerospace-orange, aerostatics, ambrosia, ambrosia-ivory, ambrosia-salad, barossa, cross-my-heart, crossroads, frosted-almond, frosted-garden, frosted-glass, frosted-grape, frosted-lilac, frosted-sugar, frosting-cream, frosty-dawn, frosty-day, frosty-glade, hint-of-frosted-sugar, hint-of-frosty-dawn, hint-of-rose-aspect, hint-of-rose-romantic, hiroshima-aquamarine, lavender-mosaic, light-frosted-sugar, light-frosty-dawn, light-rose-aspect, light-rose-romantic, monstera-deliciosa, okroshka, pastel-rose-tan, patrinia-scabiosaefolia, rose-ashes, rose-aspect, rose-branch, rose-colored-glasses, rose-daphne, rose-dawn, rose-de-mai, rose-dragee, rose-madder, rose-marble, rose-mauve, rose-meadow, rose-of-sharon, rose-petal, rose-pink-villa, rose-quartz, rose-romantic, rose-shadow, rose-stain, rose-tan, rose-tattoo, rose-taupe, rose-tea, rose-vale, rose-vapor, rose-water, rosemary, rosencavalier, roses-are-red, rosetta, rosey-afterglow, rosso-corsa, rosy-maple-moth, terra-rosa, aurometalsaurus, bronze-sand, brown-sand, morocco-sand, prom-corsage, strong-sage, barbados-bay, barbarossa, brown-mustard, brown-sugar, brownish-orange, charolais-cattle, chromis-damsel-blue, crocus-petal, croissant, crowshead, dark-rose-tan, frozen-custard, frozen-statues, hearty-hosta, light-brown-sugar, maple-brown-sugar, narcomedusae, primrose-garden, primrose-path, prophetic-sea, reno-sand, roasted-almond, roasted-cashew, roasted-kona, roasted-pecan, roasted-pistachio, roasted-sienna, roasted-squash, rock-spray, roller-coaster-chariot, rolling-sea, roman-snail, rooibos-tea, rousseau-green, royal-fuchsia, san-carlos-plaza, spiro-disco-ball, stratford-sage, strong-strawberry, terracotta-sand, troll-slayer-orange, tropical-cascade, tropical-siesta, tropical-splash, yellow-green-grosbeak, arrow-shaft, black-dragons-caldron, bryopsida-green, butterscotch-sundae, coral-cornsnake, crazy-horse-mountain, crimson-strawberry, dark-brown-sugar, dragon-scale, drakenhof-nightshade, drifting-downstream, flirtatious-indigo-tea, friendly-homestead, greenhouse-glass, gryphonne-sepia-wash, harrows-gate, heirloom-shade, horizon-island, norman-shaw-goldspar, orioles-orange, outrageous-orange, paperboys-lawn, pharaohs-jade, pharaohs-seas, porpoise-place, precious-nectar, precious-pearls, purple-mountains-majesty, purple-mountains-majesty, rhode-island-red, sacramento-state-green, sargasso-sea, seriously-sand, turbinado-sugar, turquoise-cyan, turquoise-panic, turquoise-sea, turquoise-topaz, university-of-tennessee-orange, vermillion-seabass, warm-croissant,\",\"src\":\"023-027-019-012\",\"action\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-beon\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-beon\",\"length\":41},\"moment\":41,\"pattern\":{\"nom\":\"harrows-gate\",\"hex\":\"7EE0DE\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-00.json\",\"label\":\"gator-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-00on\",\"length\":47},\"moment\":99,\"pattern\":{\"nom\":\"heirloom-shade\",\"hex\":\"DBF5FA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01.json\",\"label\":\"gator-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01on\",\"length\":47},\"moment\":30,\"pattern\":{\"nom\":\"crazy-horse-mountain\",\"hex\":\"E8E6F0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-02.json\",\"label\":\"gator-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-02on\",\"length\":47},\"moment\":79,\"pattern\":{\"nom\":\"rose-ashes\",\"hex\":\"B5F0F2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03.json\",\"label\":\"gator-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03on\",\"length\":47},\"moment\":142,\"pattern\":{\"nom\":\"rosencavalier\",\"hex\":\"BDC4BA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00.json\",\"label\":\"gator-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00on\",\"length\":50},\"moment\":80,\"pattern\":{\"nom\":\"narcomedusae\",\"hex\":\"E6F0FC\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-01.json\",\"label\":\"gator-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-01on\",\"length\":50},\"moment\":110,\"pattern\":{\"nom\":\"aerostatics\",\"hex\":\"357350\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00-00.json\",\"label\":\"gator-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-00on\",\"length\":53},\"moment\":49,\"pattern\":{\"nom\":\"frosted-almond\",\"hex\":\"D1D1EB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00-01.json\",\"label\":\"gator-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-01on\",\"length\":53},\"moment\":130,\"pattern\":{\"nom\":\"cross-my-heart\",\"hex\":\"AD423D\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-01-00-02.json\",\"label\":\"gator-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-01-00-02on\",\"length\":53},\"moment\":34,\"pattern\":{\"nom\":\"paperboys-lawn\",\"hex\":\"242040\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-00.json\",\"label\":\"gator-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-00on\",\"length\":50},\"moment\":37,\"pattern\":{\"nom\":\"turbinado-sugar\",\"hex\":\"FA5CBF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01.json\",\"label\":\"gator-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01on\",\"length\":50},\"moment\":22,\"pattern\":{\"nom\":\"university-of-tennessee-orange\",\"hex\":\"F70082\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01-00.json\",\"label\":\"gator-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-00on\",\"length\":53},\"moment\":40,\"pattern\":{\"nom\":\"frosted-sugar\",\"hex\":\"D6E8E0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01-01.json\",\"label\":\"gator-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-01on\",\"length\":53},\"moment\":83,\"pattern\":{\"nom\":\"frosty-dawn\",\"hex\":\"CABFDE\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-ruler/gator-03-01-02.json\",\"label\":\"gator-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-ruler-gator-03-01-02on\",\"length\":53},\"moment\":53,\"pattern\":{\"nom\":\"crowshead\",\"hex\":\"1C4AA3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"save\":\"./2-dat/bot/04-blessed/reptile-ruler/rosa.json\"},{\"idx\":\"idx\",\"name\":\"kbar\",\"nom\":\"kbar-mckilligutti\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#84754f\",\"rgb\":\"132-117-079\",\"flv\":\"woodbridge\",\"pwr\":14,\"src\":\"0-11-40-48\"},\"about\":{\"code\":0,\"being\":\"04-blessed\",\"role\":\"reptile-rancher\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00002\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":9,\"atk\":3,\"esc\":9,\"def\":2,\"str\":10,\"dmg\":5,\"rst\":9,\"pwr\":3},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"gator-00\":\"0\",\"gator-01\":\"0\",\"gator-02\":\"0\",\"gator-03\":\"0\",\"gator-01-00\":\"0\",\"gator-01-01\":\"0\",\"gator-01-00-00\":\"0\",\"gator-01-00-01\":\"0\",\"gator-01-00-02\":\"0\",\"gator-03-00\":\"0\",\"gator-03-01\":\"0\",\"gator-03-01-00\":\"0\",\"gator-03-01-01\":\"0\",\"gator-03-01-02\":\"0\"},\"forms\":{\"be\":[\"gator-00\",\"gator-01\",\"gator-02\",\"gator-03\"],\"gator-01\":[\"gator-01-00\",\"gator-01-01\"],\"gator-01-00\":[\"gator-01-00-00\",\"gator-01-00-01\",\"gator-01-00-02\"],\"gator-03\":[\"gator-03-00\",\"gator-03-01\"],\"gator-03-01\":[\"gator-03-01-00\",\"gator-03-01-01\",\"gator-03-01-02\"]},\"actions\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-beon\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-beon\",\"length\":43},\"moment\":71,\"pattern\":{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-00.json\",\"label\":\"gator-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-00on\",\"length\":49},\"moment\":16,\"pattern\":{\"nom\":\"kabacha-brown\",\"hex\":\"B0456B\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00-00.json\",\"label\":\"gator-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-00on\",\"length\":55},\"moment\":97,\"pattern\":{\"nom\":\"oak-barrel\",\"hex\":\"707AC2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00-01.json\",\"label\":\"gator-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-01on\",\"length\":55},\"moment\":135,\"pattern\":{\"nom\":\"kabalite-green\",\"hex\":\"030405\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00-02.json\",\"label\":\"gator-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-02on\",\"length\":55},\"moment\":30,\"pattern\":{\"nom\":\"snakebite-leather\",\"hex\":\"BA0ADE\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00.json\",\"label\":\"gator-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00on\",\"length\":52},\"moment\":112,\"pattern\":{\"nom\":\"akihabara-arcade\",\"hex\":\"61630C\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-01.json\",\"label\":\"gator-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-01on\",\"length\":52},\"moment\":129,\"pattern\":{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01.json\",\"label\":\"gator-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01on\",\"length\":49},\"moment\":14,\"pattern\":{\"nom\":\"oak-barrel\",\"hex\":\"707AC2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-02.json\",\"label\":\"gator-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-02on\",\"length\":49},\"moment\":18,\"pattern\":{\"nom\":\"akihabara-arcade\",\"hex\":\"61630C\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-00.json\",\"label\":\"gator-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-00on\",\"length\":52},\"moment\":44,\"pattern\":{\"nom\":\"cork-bark\",\"hex\":\"7D87D9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01-00.json\",\"label\":\"gator-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-00on\",\"length\":55},\"moment\":56,\"pattern\":{\"nom\":\"lechucks-beard\",\"hex\":\"3D85E0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01-01.json\",\"label\":\"gator-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-01on\",\"length\":55},\"moment\":50,\"pattern\":{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01-02.json\",\"label\":\"gator-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-02on\",\"length\":55},\"moment\":61,\"pattern\":{\"nom\":\"lechucks-beard\",\"hex\":\"3D85E0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01.json\",\"label\":\"gator-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01on\",\"length\":52},\"moment\":61,\"pattern\":{\"nom\":\"corkboard\",\"hex\":\"9E96D1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03.json\",\"label\":\"gator-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03on\",\"length\":49},\"moment\":33,\"pattern\":{\"nom\":\"pookie-bear\",\"hex\":\"825994\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"plot\":{\"gator-00\":[\"gatoring-beginning\"],\"gator-01\":[\"gatoring-breakdown\"],\"gator-02\":[\"fog-of-gatoring\"],\"gator-03\":[\"gatoring-business\"],\"gator-01-00\":[\"think-about-gators\"],\"gator-01-01\":[\"act-about-gators\"],\"gator-01-00-00\":[\"angerly\"],\"gator-01-00-01\":[\"clearly\"],\"gator-01-00-02\":[\"meanly\"],\"gator-03-00\":[\"check-locations\"],\"gator-03-01\":[\"collect-feed-buckets\"],\"gator-03-01-00\":[\"use-cotton-seed-slopily\"],\"gator-03-01-01\":[\"use-cotton-seed-perfectly\"],\"gator-03-01-02\":[\"use-cotton-seed-accuratly\"]},\"history\":[]},\"pattern\":[{\"nom\":\"akihabara-arcade\",\"hex\":\"61630C\"},{\"nom\":\"cork-bark\",\"hex\":\"7D87D9\"},{\"nom\":\"oak-barrel\",\"hex\":\"707AC2\"},{\"nom\":\"corkboard\",\"hex\":\"9E96D1\"},{\"nom\":\"cake-batter\",\"hex\":\"F0E8FC\"},{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},{\"nom\":\"kabacha-brown\",\"hex\":\"B0456B\"},{\"nom\":\"kabalite-green\",\"hex\":\"030405\"},{\"nom\":\"kitsurubami-brown\",\"hex\":\"BA59B0\"},{\"nom\":\"kobai-red\",\"hex\":\"DB7D69\"},{\"nom\":\"lechucks-beard\",\"hex\":\"3D85E0\"},{\"nom\":\"pookie-bear\",\"hex\":\"825994\"},{\"nom\":\"kabocha-green\",\"hex\":\"04010D\"},{\"nom\":\"snakebite-leather\",\"hex\":\"BA0ADE\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":2,\"code\":[\"kbar-mckilligutti\",\"04-blessed\",\"reptile-rancher\"],\"clr\":\"kbar : akihabara-arcade, cork-bark, oak-barrel, corkboard, cake-batter, dark-brown-sugar, kabacha-brown, kabalite-green, kitsurubami-brown, kobai-red, lechucks-beard, pookie-bear, kabocha-green, snakebite-leather,\",\"src\":\"037-051-027-018\",\"action\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-beon\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-beon\",\"length\":43},\"moment\":71,\"pattern\":{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-00.json\",\"label\":\"gator-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-00on\",\"length\":49},\"moment\":16,\"pattern\":{\"nom\":\"kabacha-brown\",\"hex\":\"B0456B\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01.json\",\"label\":\"gator-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01on\",\"length\":49},\"moment\":14,\"pattern\":{\"nom\":\"oak-barrel\",\"hex\":\"707AC2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-02.json\",\"label\":\"gator-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-02on\",\"length\":49},\"moment\":18,\"pattern\":{\"nom\":\"akihabara-arcade\",\"hex\":\"61630C\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03.json\",\"label\":\"gator-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03on\",\"length\":49},\"moment\":33,\"pattern\":{\"nom\":\"pookie-bear\",\"hex\":\"825994\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00.json\",\"label\":\"gator-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00on\",\"length\":52},\"moment\":112,\"pattern\":{\"nom\":\"akihabara-arcade\",\"hex\":\"61630C\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-01.json\",\"label\":\"gator-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-01on\",\"length\":52},\"moment\":129,\"pattern\":{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00-00.json\",\"label\":\"gator-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-00on\",\"length\":55},\"moment\":97,\"pattern\":{\"nom\":\"oak-barrel\",\"hex\":\"707AC2\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00-01.json\",\"label\":\"gator-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-01on\",\"length\":55},\"moment\":135,\"pattern\":{\"nom\":\"kabalite-green\",\"hex\":\"030405\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-01-00-02.json\",\"label\":\"gator-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-01-00-02on\",\"length\":55},\"moment\":30,\"pattern\":{\"nom\":\"snakebite-leather\",\"hex\":\"BA0ADE\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-00.json\",\"label\":\"gator-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-00on\",\"length\":52},\"moment\":44,\"pattern\":{\"nom\":\"cork-bark\",\"hex\":\"7D87D9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01.json\",\"label\":\"gator-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01on\",\"length\":52},\"moment\":61,\"pattern\":{\"nom\":\"corkboard\",\"hex\":\"9E96D1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01-00.json\",\"label\":\"gator-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-00on\",\"length\":55},\"moment\":56,\"pattern\":{\"nom\":\"lechucks-beard\",\"hex\":\"3D85E0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01-01.json\",\"label\":\"gator-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-01on\",\"length\":55},\"moment\":50,\"pattern\":{\"nom\":\"dark-brown-sugar\",\"hex\":\"B080B3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gator-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/reptile-rancher/gator-03-01-02.json\",\"label\":\"gator-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-reptile-rancher-gator-03-01-02on\",\"length\":55},\"moment\":61,\"pattern\":{\"nom\":\"lechucks-beard\",\"hex\":\"3D85E0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"save\":\"./2-dat/bot/04-blessed/reptile-rancher/kbar.json\"},{\"idx\":\"idx\",\"name\":\"simone\",\"nom\":\"simone-beeing\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#d4ab81\",\"rgb\":\"212-171-129\",\"flv\":\"paper-brown\",\"pwr\":9,\"src\":\"0-19-39-17\"},\"about\":{\"code\":0,\"being\":\"04-blessed\",\"role\":\"golden-child\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00003\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":8,\"atk\":2,\"esc\":9,\"def\":5,\"str\":9,\"dmg\":2,\"rst\":9,\"pwr\":2},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"gold-00\":\"0\",\"gold-01\":\"0\",\"gold-02\":\"0\",\"gold-03\":\"0\",\"gold-01-00\":\"0\",\"gold-01-01\":\"0\",\"gold-01-00-00\":\"0\",\"gold-01-00-01\":\"0\",\"gold-01-00-02\":\"0\",\"gold-03-00\":\"0\",\"gold-03-01\":\"0\",\"gold-03-01-00\":\"0\",\"gold-03-01-01\":\"0\",\"gold-03-01-02\":\"0\"},\"forms\":{\"be\":[\"gold-00\",\"gold-01\",\"gold-02\",\"gold-03\"],\"gold-01\":[\"gold-01-00\",\"gold-01-01\"],\"gold-01-00\":[\"gold-01-00-00\",\"gold-01-00-01\",\"gold-01-00-02\"],\"gold-03\":[\"gold-03-00\",\"gold-03-01\"],\"gold-03-01\":[\"gold-03-01-00\",\"gold-03-01-01\",\"gold-03-01-02\"]},\"actions\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/golden-child/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-beon\",\"orig\":\".-2-dat-act-04-blessed-golden-child-beon\",\"length\":40},\"moment\":99,\"pattern\":{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-00.json\",\"label\":\"gold-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-00on\",\"length\":45},\"moment\":30,\"pattern\":{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00-00.json\",\"label\":\"gold-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-00on\",\"length\":51},\"moment\":130,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00-01.json\",\"label\":\"gold-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-01on\",\"length\":51},\"moment\":34,\"pattern\":{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00-02.json\",\"label\":\"gold-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-02on\",\"length\":51},\"moment\":37,\"pattern\":{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00.json\",\"label\":\"gold-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00on\",\"length\":48},\"moment\":110,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-01.json\",\"label\":\"gold-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-01on\",\"length\":48},\"moment\":49,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01.json\",\"label\":\"gold-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01on\",\"length\":45},\"moment\":79,\"pattern\":{\"nom\":\"persimmon-juice\",\"hex\":\"945E75\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-02\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-02.json\",\"label\":\"gold-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-02on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-02on\",\"length\":45},\"moment\":142,\"pattern\":{\"nom\":\"persimmon-orange\",\"hex\":\"F52978\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-00.json\",\"label\":\"gold-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-00on\",\"length\":48},\"moment\":22,\"pattern\":{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01-00.json\",\"label\":\"gold-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-00on\",\"length\":51},\"moment\":83,\"pattern\":{\"nom\":\"persimmon-fade\",\"hex\":\"F794C4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01-01.json\",\"label\":\"gold-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-01on\",\"length\":51},\"moment\":53,\"pattern\":{\"nom\":\"polished-limestone\",\"hex\":\"DBE8F7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01-02.json\",\"label\":\"gold-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-02on\",\"length\":51},\"moment\":35,\"pattern\":{\"nom\":\"polished-limestone\",\"hex\":\"DBE8F7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01.json\",\"label\":\"gold-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01on\",\"length\":48},\"moment\":40,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03.json\",\"label\":\"gold-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03on\",\"length\":45},\"moment\":80,\"pattern\":{\"nom\":\"simpson-surprise\",\"hex\":\"82CDFA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"plot\":{\"gold-00\":[\"golding-beginning\"],\"gold-01\":[\"golding-breakdown\"],\"gold-02\":[\"fog-of-golding\"],\"gold-03\":[\"golding-business\"],\"gold-01-00\":[\"think-about-gold\"],\"gold-01-01\":[\"act-about-gold\"],\"gold-01-00-00\":[\"angerly\"],\"gold-01-00-01\":[\"clearly\"],\"gold-01-00-02\":[\"meanly\"],\"gold-03-00\":[\"check-locations\"],\"gold-03-01\":[\"collect-feed-buckets\"],\"gold-03-01-00\":[\"use-cotton-seed-slopily\"],\"gold-03-01-01\":[\"use-cotton-seed-perfectly\"],\"gold-03-01-02\":[\"use-cotton-seed-accuratly\"]},\"history\":[]},\"pattern\":[{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},{\"nom\":\"persimmon-fade\",\"hex\":\"F794C4\"},{\"nom\":\"persimmon-juice\",\"hex\":\"945E75\"},{\"nom\":\"persimmon-orange\",\"hex\":\"F52978\"},{\"nom\":\"polished-limestone\",\"hex\":\"DBE8F7\"},{\"nom\":\"simpson-surprise\",\"hex\":\"82CDFA\"},{\"nom\":\"simpsons-yellow\",\"hex\":\"FF0FD9\"},{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":3,\"code\":[\"simone-beeing\",\"04-blessed\",\"golden-child\"],\"clr\":\"simone : crushed-limestone, persimmon-fade, persimmon-juice, persimmon-orange, polished-limestone, simpson-surprise, simpsons-yellow, stacked-limestone, fresh-pink-lemonade,\",\"src\":\"017-039-019-000\",\"action\":{\"be\":{\"id\":\"./2-dat/act/04-blessed/golden-child/be.json\",\"label\":\"be\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-beon\",\"orig\":\".-2-dat-act-04-blessed-golden-child-beon\",\"length\":40},\"moment\":99,\"pattern\":{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-00.json\",\"label\":\"gold-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-00on\",\"length\":45},\"moment\":30,\"pattern\":{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01.json\",\"label\":\"gold-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01on\",\"length\":45},\"moment\":79,\"pattern\":{\"nom\":\"persimmon-juice\",\"hex\":\"945E75\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-02\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-02.json\",\"label\":\"gold-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-02on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-02on\",\"length\":45},\"moment\":142,\"pattern\":{\"nom\":\"persimmon-orange\",\"hex\":\"F52978\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03.json\",\"label\":\"gold-03\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03on\",\"length\":45},\"moment\":80,\"pattern\":{\"nom\":\"simpson-surprise\",\"hex\":\"82CDFA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00.json\",\"label\":\"gold-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00on\",\"length\":48},\"moment\":110,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-01.json\",\"label\":\"gold-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-01on\",\"length\":48},\"moment\":49,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00-00.json\",\"label\":\"gold-01-00-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-00on\",\"length\":51},\"moment\":130,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00-01.json\",\"label\":\"gold-01-00-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-01on\",\"length\":51},\"moment\":34,\"pattern\":{\"nom\":\"stacked-limestone\",\"hex\":\"D1B3E3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-01-00-02\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-01-00-02.json\",\"label\":\"gold-01-00-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-02on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-01-00-02on\",\"length\":51},\"moment\":37,\"pattern\":{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-00.json\",\"label\":\"gold-03-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-00on\",\"length\":48},\"moment\":22,\"pattern\":{\"nom\":\"fresh-pink-lemonade\",\"hex\":\"D1DBD1\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01.json\",\"label\":\"gold-03-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01on\",\"length\":48},\"moment\":40,\"pattern\":{\"nom\":\"crushed-limestone\",\"hex\":\"D7EBF7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01-00\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01-00.json\",\"label\":\"gold-03-01-00\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-00on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-00on\",\"length\":51},\"moment\":83,\"pattern\":{\"nom\":\"persimmon-fade\",\"hex\":\"F794C4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01-01\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01-01.json\",\"label\":\"gold-03-01-01\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-01on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-01on\",\"length\":51},\"moment\":53,\"pattern\":{\"nom\":\"polished-limestone\",\"hex\":\"DBE8F7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]},\"gold-03-01-02\":{\"id\":\"./2-dat/act/04-blessed/golden-child/gold-03-01-02.json\",\"label\":\"gold-03-01-02\",\"name\":{\"s\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-02on\",\"orig\":\".-2-dat-act-04-blessed-golden-child-gold-03-01-02on\",\"length\":51},\"moment\":35,\"pattern\":{\"nom\":\"polished-limestone\",\"hex\":\"DBE8F7\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[],\"text\":[]}},\"save\":\"./2-dat/bot/04-blessed/golden-child/simone.json\"}]}\n";
+},{"../0-bee/01_app/00_app":4,"../0-bee/03_bot/00_act-progress":6,"../0-bee/03_bot/00_bot-choose":7,"../0-bee/03_bot/00_bot-time":8,"../0-bee/03_bot/00_enable-choice-list":9,"../0-bee/03_bot/16_act-select":10,"../0-bee/99_int/0-sigh":11,"../0-bee/99_int/1-spin":12,"../0-bee/BEEING":13,"../0-bee/EVENT":14,"../local/dat/000_perfect-beeing.json":23,"_process":83,"fs-extra":52}],23:[function(require,module,exports){
+module.exports=module.exports = "{\"be\":[\"sigh\",\"spin\",\"timecode\",\"beeing\"],\"00-live\":[\"\"],\"15-natural\":[\"okeenokee\",\"okeenokee-swamp\"],\"okeenokee-swamp\":[\"okeenokee\",\"15-natural\",\"map-of-okeenokee-swamp\"],\"06-primal\":[\"hard-hard\",\"rexxxx-lexxxx\",\"skull-lizard\",\"star-eater\"],\"hard-hard\":[\"hard\",\"06-primal\",\"hard-gator-fight\"],\"skull-lizard\":[\"skull\",\"06-primal\",\"fierce-gator-fight\"],\"rexxxx-lexxxx\":[\"rex\",\"06-primal\",\"quick-gator-fight\"],\"star-eater\":[\"eater\",\"06-primal\",\"hungry-gator-fight\"],\"beeing\":[\"00-moat\",\"01-bits\",\"02-supernal\",\"03-mistaken\",\"04-blessed\",\"05-bounded\",\"06-primal\",\"07-functional\",\"08-structural\",\"09-peopled\",\"10-institional\",\"11-political\",\"12-commerical\",\"13-tournamental\",\"14-emotional\",\"15-natural\",\"16-cultural\"],\"srcLOC\":\"./local/dat/000_perfect-beeing.json\",\"avaList\":[{\"idx\":\"idx\",\"name\":\"hard-hard\",\"nom\":\"hard\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#a58676\",\"rgb\":\"165-134-118\",\"flv\":\"chanterelle-sauce\",\"pwr\":114,\"src\":\"0-19-28-35\"},\"about\":{\"code\":0,\"being\":\"06-primal\",\"role\":\"hard-gator-fight\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00000\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":9,\"atk\":4,\"esc\":9,\"def\":3,\"str\":9,\"dmg\":2,\"rst\":9,\"pwr\":4},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"war-00\":\"0\",\"war-01\":\"0\",\"war-02\":\"0\",\"war-03\":\"0\",\"war-03-00\":\"0\",\"war-03-01\":\"0\",\"war-03-02\":\"0\"},\"forms\":{\"be\":[\"war-00\",\"war-01\",\"war-02\",\"war-03\"],\"war-03\":[\"war-03-00\",\"war-03-01\",\"war-03-02\"]},\"plot\":{\"war-00\":[\"scan-battle-field\"],\"war-01\":[\"choose-target\"],\"war-02\":[\"change-target\"],\"war-03\":[\"attack-target\"],\"war-03-00\":[\"angerly\"],\"war-03-01\":[\"clearly\"],\"war-03-02\":[\"meanly\"]},\"text\":{\"scan-battle-field\":[\"itnom-looks-into-the-territory-with-a-merfiful-eye\"],\"choose-target\":[\"ittarget-selected\"],\"change-target\":[\"ittarget-selected\"],\"attack-target\":[\"rush-in-with-a-painful-blow\"],\"angerly\":[\"the-gator-says-this-crotim-tea-is-good\"],\"clearly\":[\"the-gator-says-something-about-wisdom\"],\"meanly\":[\"the-gator-farts\"]},\"history\":[],\"actions\":{\"be\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/be.json\",\"label\":\"be\",\"moment\":99,\"pattern\":{\"nom\":\"honey-mustard\",\"hex\":\"B573C9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":122,\"pattern\":{\"nom\":\"herbal-garden\",\"hex\":\"9C7EE6\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":123,\"pattern\":{\"nom\":\"harley-davidson-orange\",\"hex\":\"C91742\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":114,\"pattern\":{\"nom\":\"che-guevara-red\",\"hex\":\"ED5224\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":59,\"pattern\":{\"nom\":\"habanero-gold\",\"hex\":\"FF4FD4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":84,\"pattern\":{\"nom\":\"sandwashed-glassshard\",\"hex\":\"DFF0F5\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":8,\"pattern\":{\"nom\":\"light-mustard\",\"hex\":\"F763DB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":35,\"pattern\":{\"nom\":\"theatre-dress\",\"hex\":\"279696\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}},\"action\":{\"be\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/be.json\",\"label\":\"be\",\"moment\":99,\"pattern\":{\"nom\":\"honey-mustard\",\"hex\":\"B573C9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":122,\"pattern\":{\"nom\":\"herbal-garden\",\"hex\":\"9C7EE6\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":123,\"pattern\":{\"nom\":\"harley-davidson-orange\",\"hex\":\"C91742\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":114,\"pattern\":{\"nom\":\"che-guevara-red\",\"hex\":\"ED5224\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":35,\"pattern\":{\"nom\":\"theatre-dress\",\"hex\":\"279696\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":59,\"pattern\":{\"nom\":\"habanero-gold\",\"hex\":\"FF4FD4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":84,\"pattern\":{\"nom\":\"sandwashed-glassshard\",\"hex\":\"DFF0F5\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/hard-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":8,\"pattern\":{\"nom\":\"light-mustard\",\"hex\":\"F763DB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}}},\"pattern\":[{\"nom\":\"chardon\",\"hex\":\"F7E6F0\"},{\"nom\":\"chardonnay\",\"hex\":\"F0C9F7\"},{\"nom\":\"jade-shard\",\"hex\":\"010302\"},{\"nom\":\"khardic-flesh\",\"hex\":\"B05C96\"},{\"nom\":\"obsidian-shard\",\"hex\":\"06520D\"},{\"nom\":\"sonoma-chardonnay\",\"hex\":\"DEA8EB\"},{\"nom\":\"wishard\",\"hex\":\"539BB0\"},{\"nom\":\"battery-charged-blue\",\"hex\":\"1E241D\"},{\"nom\":\"beach-boardwalk\",\"hex\":\"CFB3D4\"},{\"nom\":\"charade\",\"hex\":\"38D9D0\"},{\"nom\":\"charadon-granite\",\"hex\":\"4FF2F5\"},{\"nom\":\"charcoal-dust\",\"hex\":\"94D4B2\"},{\"nom\":\"charcoal-smudge\",\"hex\":\"61FAFF\"},{\"nom\":\"charmed-green\",\"hex\":\"000000\"},{\"nom\":\"charred-brown\",\"hex\":\"3D1C00\"},{\"nom\":\"charred-chocolate\",\"hex\":\"54B8B0\"},{\"nom\":\"charred-clay\",\"hex\":\"875E99\"},{\"nom\":\"chinese-garden\",\"hex\":\"000000\"},{\"nom\":\"death-guard\",\"hex\":\"9D9BE0\"},{\"nom\":\"earhart-emerald\",\"hex\":\"418EA3\"},{\"nom\":\"harissa-red\",\"hex\":\"A64040\"},{\"nom\":\"harley-davidson-orange\",\"hex\":\"C91742\"},{\"nom\":\"harold\",\"hex\":\"6EC2E8\"},{\"nom\":\"harvard-crimson\",\"hex\":\"C91C00\"},{\"nom\":\"harvest-dance\",\"hex\":\"A6BFED\"},{\"nom\":\"harvest-eve-gold\",\"hex\":\"D900AB\"},{\"nom\":\"harvest-gold\",\"hex\":\"EB73C7\"},{\"nom\":\"herb-garden\",\"hex\":\"E9E4F5\"},{\"nom\":\"hint-of-cowardly-custard\",\"hex\":\"FAE0FA\"},{\"nom\":\"hint-of-gregorio-garden\",\"hex\":\"E1F5E9\"},{\"nom\":\"honey-mustard\",\"hex\":\"B573C9\"},{\"nom\":\"horned-lizard\",\"hex\":\"E8E6FC\"},{\"nom\":\"huntington-garden\",\"hex\":\"95B3E6\"},{\"nom\":\"lechucks-beard\",\"hex\":\"3D85E0\"},{\"nom\":\"light-cowardly-custard\",\"hex\":\"FAD4F7\"},{\"nom\":\"light-gregorio-garden\",\"hex\":\"D5F0DF\"},{\"nom\":\"light-mustard\",\"hex\":\"F763DB\"},{\"nom\":\"midnight-garden\",\"hex\":\"63AFE0\"},{\"nom\":\"night-wizard\",\"hex\":\"31C4A9\"},{\"nom\":\"pharaohs-jade\",\"hex\":\"8482A1\"},{\"nom\":\"rich-gardenia\",\"hex\":\"F55285\"},{\"nom\":\"sahara-dust\",\"hex\":\"A8EBE6\"},{\"nom\":\"sahara-sand\",\"hex\":\"F28FF5\"},{\"nom\":\"sahara-splendor\",\"hex\":\"9C75BF\"},{\"nom\":\"sahara-wind\",\"hex\":\"DED1F2\"},{\"nom\":\"sharp-rip-drill\",\"hex\":\"EBE8F5\"},{\"nom\":\"the-boulevard\",\"hex\":\"D1B3C9\"},{\"nom\":\"uncharted\",\"hex\":\"19453F\"},{\"nom\":\"weather-board\",\"hex\":\"9EC9ED\"},{\"nom\":\"biohazard-suit\",\"hex\":\"FA4DFF\"},{\"nom\":\"mechanicus-standard-grey\",\"hex\":\"3CC9C3\"},{\"nom\":\"valhallan-blizzard\",\"hex\":\"F2F2FA\"},{\"nom\":\"ahmar-red\",\"hex\":\"C25E2B\"},{\"nom\":\"akihabara-arcade\",\"hex\":\"61630C\"},{\"nom\":\"bacchanalia-red\",\"hex\":\"8A6E6B\"},{\"nom\":\"bad-hair-day\",\"hex\":\"F28AD4\"},{\"nom\":\"balthasar-gold\",\"hex\":\"A380B5\"},{\"nom\":\"bright-marigold\",\"hex\":\"FF008C\"},{\"nom\":\"challah-bread\",\"hex\":\"CC6399\"},{\"nom\":\"chaotic-red\",\"hex\":\"73000D\"},{\"nom\":\"che-guevara-red\",\"hex\":\"ED5224\"},{\"nom\":\"habanero-gold\",\"hex\":\"FF4FD4\"},{\"nom\":\"halt-red\",\"hex\":\"FF4F00\"},{\"nom\":\"hammered-copper\",\"hex\":\"825E8C\"},{\"nom\":\"hammered-pewter\",\"hex\":\"7DD1ED\"},{\"nom\":\"hammerhead-shark\",\"hex\":\"4E8566\"},{\"nom\":\"handmade-red\",\"hex\":\"A8B5B3\"},{\"nom\":\"haute-red\",\"hex\":\"A14024\"},{\"nom\":\"hawkers-gold\",\"hex\":\"F570CC\"},{\"nom\":\"hayride\",\"hex\":\"D4B8CF\"},{\"nom\":\"hazelnut-turkish-delight\",\"hex\":\"FC75EB\"},{\"nom\":\"heart-gold\",\"hex\":\"8000FF\"},{\"nom\":\"heart-of-gold\",\"hex\":\"9E7ACF\"},{\"nom\":\"heart-wood\",\"hex\":\"707396\"},{\"nom\":\"hearts-desire\",\"hex\":\"AB8C5C\"},{\"nom\":\"hearth-gold\",\"hex\":\"A154B3\"},{\"nom\":\"herbal-garden\",\"hex\":\"9C7EE6\"},{\"nom\":\"hidden-paradise\",\"hex\":\"5F4CAD\"},{\"nom\":\"hinomaru-red\",\"hex\":\"BD3D00\"},{\"nom\":\"hint-of-arctic-daisy\",\"hex\":\"F2E3FC\"},{\"nom\":\"hint-of-garlic-suede\",\"hex\":\"E3EBFC\"},{\"nom\":\"karacha-red\",\"hex\":\"B36182\"},{\"nom\":\"light-arctic-daisy\",\"hex\":\"F2D9FA\"},{\"nom\":\"light-garlic-suede\",\"hex\":\"D9E6FA\"},{\"nom\":\"lighthearted-rose\",\"hex\":\"C7D9CF\"},{\"nom\":\"rackham-red\",\"hex\":\"D6243D\"},{\"nom\":\"sandwashed-glassshard\",\"hex\":\"DFF0F5\"},{\"nom\":\"shade-of-marigold\",\"hex\":\"B854BF\"},{\"nom\":\"shaggy-barked\",\"hex\":\"B3D9F5\"},{\"nom\":\"shamrock-field\",\"hex\":\"353861\"},{\"nom\":\"taisha-red\",\"hex\":\"9E5285\"},{\"nom\":\"chicha-morada\",\"hex\":\"7DE6C2\"},{\"nom\":\"cochineal-redrouge\",\"hex\":\"9E5242\"},{\"nom\":\"enshucha-red\",\"hex\":\"CC5C80\"},{\"nom\":\"fresh-baked-bread\",\"hex\":\"F7C4DE\"},{\"nom\":\"fuchsia-red\",\"hex\":\"ABAD4D\"},{\"nom\":\"heath-spotted-orchid\",\"hex\":\"9EFF99\"},{\"nom\":\"heathered-grey\",\"hex\":\"B5D1F7\"},{\"nom\":\"heavy-red\",\"hex\":\"9E1C1C\"},{\"nom\":\"helvetia-red\",\"hex\":\"F00000\"},{\"nom\":\"henna-red\",\"hex\":\"6E707A\"},{\"nom\":\"hint-of-favourite-lady\",\"hex\":\"F0F5ED\"},{\"nom\":\"hint-of-featherbed\",\"hex\":\"D1DED3\"},{\"nom\":\"hint-of-mauve-organdie\",\"hex\":\"EBF7F2\"},{\"nom\":\"hint-of-weathered-hide\",\"hex\":\"E8F0F5\"},{\"nom\":\"homestead-red\",\"hex\":\"99B8B8\"},{\"nom\":\"light-favourite-lady\",\"hex\":\"EBF5E6\"},{\"nom\":\"light-featherbed\",\"hex\":\"C0D1C0\"},{\"nom\":\"light-mauve-organdie\",\"hex\":\"E3F5ED\"},{\"nom\":\"light-weathered-hide\",\"hex\":\"E0EDF2\"},{\"nom\":\"renanthera-orchid\",\"hex\":\"828C0D\"},{\"nom\":\"rhode-island-red\",\"hex\":\"9C8C96\"},{\"nom\":\"theatre-dress\",\"hex\":\"279696\"},{\"nom\":\"wheat-bread\",\"hex\":\"DE91D6\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":0,\"code\":[\"hard\",\"06-primal\",\"hard-gator-fight\"],\"clr\":\"hard-hard : chardon, chardonnay, jade-shard, khardic-flesh, obsidian-shard, sonoma-chardonnay, wishard, battery-charged-blue, beach-boardwalk, charade, charadon-granite, charcoal-dust, charcoal-smudge, charmed-green, charred-brown, charred-chocolate, charred-clay, chinese-garden, death-guard, earhart-emerald, harissa-red, harley-davidson-orange, harold, harvard-crimson, harvest-dance, harvest-eve-gold, harvest-gold, herb-garden, hint-of-cowardly-custard, hint-of-gregorio-garden, honey-mustard, horned-lizard, huntington-garden, lechucks-beard, light-cowardly-custard, light-gregorio-garden, light-mustard, midnight-garden, night-wizard, pharaohs-jade, rich-gardenia, sahara-dust, sahara-sand, sahara-splendor, sahara-wind, sharp-rip-drill, the-boulevard, uncharted, weather-board, biohazard-suit, mechanicus-standard-grey, valhallan-blizzard, ahmar-red, akihabara-arcade, bacchanalia-red, bad-hair-day, balthasar-gold, bright-marigold, challah-bread, chaotic-red, che-guevara-red, habanero-gold, halt-red, hammered-copper, hammered-pewter, hammerhead-shark, handmade-red, haute-red, hawkers-gold, hayride, hazelnut-turkish-delight, heart-gold, heart-of-gold, heart-wood, hearts-desire, hearth-gold, herbal-garden, hidden-paradise, hinomaru-red, hint-of-arctic-daisy, hint-of-garlic-suede, karacha-red, light-arctic-daisy, light-garlic-suede, lighthearted-rose, rackham-red, sandwashed-glassshard, shade-of-marigold, shaggy-barked, shamrock-field, taisha-red, chicha-morada, cochineal-redrouge, enshucha-red, fresh-baked-bread, fuchsia-red, heath-spotted-orchid, heathered-grey, heavy-red, helvetia-red, henna-red, hint-of-favourite-lady, hint-of-featherbed, hint-of-mauve-organdie, hint-of-weathered-hide, homestead-red, light-favourite-lady, light-featherbed, light-mauve-organdie, light-weathered-hide, renanthera-orchid, rhode-island-red, theatre-dress, wheat-bread,\",\"src\":\"029-035-026-009\",\"save\":\"./2-dat/bot/06-primal/hard-gator-fight/hard-hard.json\"},{\"idx\":\"idx\",\"name\":\"rexxxx-lexxxx\",\"nom\":\"rex\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#ffffff\",\"rgb\":\"255-255-255\",\"flv\":\"white\",\"pwr\":1,\"src\":\"0-0-0-0\"},\"about\":{\"code\":0,\"being\":\"06-primal\",\"role\":\"quick-gator-fight\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00001\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":8,\"atk\":4,\"esc\":8,\"def\":4,\"str\":8,\"dmg\":4,\"rst\":8,\"pwr\":4},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"war-00\":\"0\",\"war-01\":\"0\",\"war-02\":\"0\",\"war-03\":\"0\",\"war-03-00\":\"0\",\"war-03-01\":\"0\",\"war-03-02\":\"0\"},\"forms\":{\"be\":[\"war-00\",\"war-01\",\"war-02\",\"war-03\"],\"war-03\":[\"war-03-00\",\"war-03-01\",\"war-03-02\"]},\"plot\":{\"war-00\":[\"scan-battle-field\"],\"war-01\":[\"choose-target\"],\"war-02\":[\"change-target\"],\"war-03\":[\"attack-target\"],\"war-03-00\":[\"angerly\"],\"war-03-01\":[\"clearly\"],\"war-03-02\":[\"meanly\"]},\"text\":{\"scan-battle-field\":[\"itnom-looks-into-the-territory-with-a-merfiful-eye\"],\"choose-target\":[\"ittarget-selected\"],\"change-target\":[\"ittarget-selected\"],\"attack-target\":[\"rush-in-with-a-painful-blow\"],\"angerly\":[\"the-gator-says-this-crotim-tea-is-good\"],\"clearly\":[\"the-gator-says-something-about-wisdom\"],\"meanly\":[\"the-gator-farts\"]},\"history\":[],\"actions\":{\"be\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/be.json\",\"label\":\"be\",\"moment\":12,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":128,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":138,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":142,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":20,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":78,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":71,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":19,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}},\"action\":{\"be\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/be.json\",\"label\":\"be\",\"moment\":12,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":128,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":138,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":142,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":19,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":20,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":78,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/quick-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":71,\"pattern\":{\"nom\":\"white\",\"hex\":\"FFFFFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}}},\"pattern\":[{\"nom\":\"white\",\"hex\":\"FFFFFF\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":1,\"code\":[\"rex\",\"06-primal\",\"quick-gator-fight\"],\"clr\":\"rexxxx-lexxxx : white\",\"src\":\"000-000-000-000\",\"save\":\"./2-dat/bot/06-primal/quick-gator-fight/rexxxx-lexxxx.json\"},{\"idx\":\"idx\",\"name\":\"skull-lizard\",\"nom\":\"skull\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#c7c984\",\"rgb\":\"199-201-132\",\"flv\":\"chimes\",\"pwr\":15,\"src\":\"1-0-34-21\"},\"about\":{\"code\":0,\"being\":\"06-primal\",\"role\":\"fierce-gator-fight\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00002\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":9,\"atk\":6,\"esc\":8,\"def\":1,\"str\":9,\"dmg\":3,\"rst\":9,\"pwr\":6},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"war-00\":\"0\",\"war-01\":\"0\",\"war-02\":\"0\",\"war-03\":\"0\",\"war-03-00\":\"0\",\"war-03-01\":\"0\",\"war-03-02\":\"0\"},\"forms\":{\"be\":[\"war-00\",\"war-01\",\"war-02\",\"war-03\"],\"war-03\":[\"war-03-00\",\"war-03-01\",\"war-03-02\"]},\"plot\":{\"war-00\":[\"scan-battle-field\"],\"war-01\":[\"choose-target\"],\"war-02\":[\"change-target\"],\"war-03\":[\"attack-target\"],\"war-03-00\":[\"angerly\"],\"war-03-01\":[\"clearly\"],\"war-03-02\":[\"meanly\"]},\"text\":{\"scan-battle-field\":[\"itnom-looks-into-the-territory-with-a-merfiful-eye\"],\"choose-target\":[\"ittarget-selected\"],\"change-target\":[\"ittarget-selected\"],\"attack-target\":[\"rush-in-with-a-painful-blow\"],\"angerly\":[\"the-gator-says-this-crotim-tea-is-good\"],\"clearly\":[\"the-gator-says-something-about-wisdom\"],\"meanly\":[\"the-gator-farts\"]},\"history\":[],\"actions\":{\"be\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/be.json\",\"label\":\"be\",\"moment\":69,\"pattern\":{\"nom\":\"skullcrusher-brass\",\"hex\":\"F296D4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":29,\"pattern\":{\"nom\":\"skullcrusher-brass\",\"hex\":\"F296D4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":11,\"pattern\":{\"nom\":\"screaming-skull\",\"hex\":\"F0DCFC\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":117,\"pattern\":{\"nom\":\"lazy-lizard\",\"hex\":\"9C7AFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":61,\"pattern\":{\"nom\":\"lizard-belly\",\"hex\":\"CC40FF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":34,\"pattern\":{\"nom\":\"blizzard-blue\",\"hex\":\"A4B0A9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":80,\"pattern\":{\"nom\":\"tyrant-skull\",\"hex\":\"CCA6F5\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":12,\"pattern\":{\"nom\":\"blizzard-blue\",\"hex\":\"A4B0A9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}},\"action\":{\"be\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/be.json\",\"label\":\"be\",\"moment\":69,\"pattern\":{\"nom\":\"skullcrusher-brass\",\"hex\":\"F296D4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":29,\"pattern\":{\"nom\":\"skullcrusher-brass\",\"hex\":\"F296D4\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":11,\"pattern\":{\"nom\":\"screaming-skull\",\"hex\":\"F0DCFC\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":117,\"pattern\":{\"nom\":\"lazy-lizard\",\"hex\":\"9C7AFF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":12,\"pattern\":{\"nom\":\"blizzard-blue\",\"hex\":\"A4B0A9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":61,\"pattern\":{\"nom\":\"lizard-belly\",\"hex\":\"CC40FF\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":34,\"pattern\":{\"nom\":\"blizzard-blue\",\"hex\":\"A4B0A9\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/fierce-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":80,\"pattern\":{\"nom\":\"tyrant-skull\",\"hex\":\"CCA6F5\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}}},\"pattern\":[{\"nom\":\"skull\",\"hex\":\"E3E3F5\"},{\"nom\":\"skullcrusher-brass\",\"hex\":\"F296D4\"},{\"nom\":\"tyrant-skull\",\"hex\":\"CCA6F5\"},{\"nom\":\"screaming-skull\",\"hex\":\"F0DCFC\"},{\"nom\":\"pigskin-puffball\",\"hex\":\"E8E6F0\"},{\"nom\":\"ryoku-ou-shoku-yellow\",\"hex\":\"DB1CEB\"},{\"nom\":\"lizard\",\"hex\":\"708CE0\"},{\"nom\":\"green-lizard\",\"hex\":\"A623AD\"},{\"nom\":\"horned-lizard\",\"hex\":\"E8E6FC\"},{\"nom\":\"lizard-belly\",\"hex\":\"CC40FF\"},{\"nom\":\"lizard-legs\",\"hex\":\"808AD4\"},{\"nom\":\"lazy-lizard\",\"hex\":\"9C7AFF\"},{\"nom\":\"lime-lizard\",\"hex\":\"AB5BCF\"},{\"nom\":\"blizzard-blue\",\"hex\":\"A4B0A9\"},{\"nom\":\"valhallan-blizzard\",\"hex\":\"F2F2FA\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":2,\"code\":[\"skull\",\"06-primal\",\"fierce-gator-fight\"],\"clr\":\"skull-lizard : skull, skullcrusher-brass, tyrant-skull, screaming-skull, pigskin-puffball, ryoku-ou-shoku-yellow, lizard, green-lizard, horned-lizard, lizard-belly, lizard-legs, lazy-lizard, lime-lizard, blizzard-blue, valhallan-blizzard,\",\"src\":\"018-037-004-005\",\"save\":\"./2-dat/bot/06-primal/fierce-gator-fight/skull-lizard.json\"},{\"idx\":\"idx\",\"name\":\"star-eater\",\"nom\":\"eater\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#a89f91\",\"rgb\":\"168-159-145\",\"flv\":\"abbey-road\",\"pwr\":500,\"src\":\"0-5-14-34\"},\"about\":{\"code\":0,\"being\":\"06-primal\",\"role\":\"hungry-gator-fight\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00003\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":9,\"atk\":4,\"esc\":9,\"def\":4,\"str\":9,\"dmg\":3,\"rst\":9,\"pwr\":3},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"war-00\":\"0\",\"war-01\":\"0\",\"war-02\":\"0\",\"war-03\":\"0\",\"war-03-00\":\"0\",\"war-03-01\":\"0\",\"war-03-02\":\"0\"},\"forms\":{\"be\":[\"war-00\",\"war-01\",\"war-02\",\"war-03\"],\"war-03\":[\"war-03-00\",\"war-03-01\",\"war-03-02\"]},\"plot\":{\"war-00\":[\"scan-battle-field\"],\"war-01\":[\"choose-target\"],\"war-02\":[\"change-target\"],\"war-03\":[\"attack-target\"],\"war-03-00\":[\"angerly\"],\"war-03-01\":[\"clearly\"],\"war-03-02\":[\"meanly\"]},\"text\":{\"scan-battle-field\":[\"itnom-looks-into-the-territory-with-a-merfiful-eye\"],\"choose-target\":[\"ittarget-selected\"],\"change-target\":[\"ittarget-selected\"],\"attack-target\":[\"rush-in-with-a-painful-blow\"],\"angerly\":[\"the-gator-says-this-crotim-tea-is-good\"],\"clearly\":[\"the-gator-says-something-about-wisdom\"],\"meanly\":[\"the-gator-farts\"]},\"history\":[],\"actions\":{\"be\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/be.json\",\"label\":\"be\",\"moment\":44,\"pattern\":{\"nom\":\"rum-custard\",\"hex\":\"E8BAE3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":61,\"pattern\":{\"nom\":\"sacrifice-altar\",\"hex\":\"850303\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":56,\"pattern\":{\"nom\":\"light-featherbed\",\"hex\":\"C0D1C0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":50,\"pattern\":{\"nom\":\"santa-fe-sunrise\",\"hex\":\"CC82BA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":83,\"pattern\":{\"nom\":\"sea-hunter\",\"hex\":\"244D38\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":20,\"pattern\":{\"nom\":\"angel-feather\",\"hex\":\"F5FAFA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":17,\"pattern\":{\"nom\":\"steamy-spring\",\"hex\":\"B2D3DB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":61,\"pattern\":{\"nom\":\"leather\",\"hex\":\"8F94BD\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}},\"action\":{\"be\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/be.json\",\"label\":\"be\",\"moment\":44,\"pattern\":{\"nom\":\"rum-custard\",\"hex\":\"E8BAE3\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-00\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-00.json\",\"label\":\"war-00\",\"name\":\"scan-battle-field\",\"moment\":61,\"pattern\":{\"nom\":\"sacrifice-altar\",\"hex\":\"850303\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-01\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-01.json\",\"label\":\"war-01\",\"name\":\"choose-target\",\"moment\":56,\"pattern\":{\"nom\":\"light-featherbed\",\"hex\":\"C0D1C0\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-02\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-02.json\",\"label\":\"war-02\",\"name\":\"change-target\",\"moment\":50,\"pattern\":{\"nom\":\"santa-fe-sunrise\",\"hex\":\"CC82BA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03.json\",\"label\":\"war-03\",\"name\":\"attack-target\",\"moment\":61,\"pattern\":{\"nom\":\"leather\",\"hex\":\"8F94BD\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-00\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03-00.json\",\"label\":\"war-03-00\",\"name\":\"angerly\",\"moment\":83,\"pattern\":{\"nom\":\"sea-hunter\",\"hex\":\"244D38\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-01\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03-01.json\",\"label\":\"war-03-01\",\"name\":\"clearly\",\"moment\":20,\"pattern\":{\"nom\":\"angel-feather\",\"hex\":\"F5FAFA\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"war-03-02\":{\"id\":\"./2-dat/act/06-primal/hungry-gator-fight/war-03-02.json\",\"label\":\"war-03-02\",\"name\":\"meanly\",\"moment\":17,\"pattern\":{\"nom\":\"steamy-spring\",\"hex\":\"B2D3DB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}}},\"pattern\":[{\"nom\":\"angelic-starlet\",\"hex\":\"EBEBFC\"},{\"nom\":\"apple-custard\",\"hex\":\"FCB0E0\"},{\"nom\":\"brewed-mustard\",\"hex\":\"E66E91\"},{\"nom\":\"bright-star\",\"hex\":\"DCF5F0\"},{\"nom\":\"brown-mustard\",\"hex\":\"DE66C4\"},{\"nom\":\"coffee-custard\",\"hex\":\"ABE8E8\"},{\"nom\":\"colonel-mustard\",\"hex\":\"B54FB5\"},{\"nom\":\"cowardly-custard\",\"hex\":\"FAC2F5\"},{\"nom\":\"creamy-custard\",\"hex\":\"FAC4ED\"},{\"nom\":\"custard\",\"hex\":\"FF78FC\"},{\"nom\":\"custard-powder\",\"hex\":\"F7B0E3\"},{\"nom\":\"custard-puff\",\"hex\":\"FCB0F0\"},{\"nom\":\"dark-mustard\",\"hex\":\"A808D1\"},{\"nom\":\"daystar\",\"hex\":\"FFD9F7\"},{\"nom\":\"dijon-mustard\",\"hex\":\"E382E3\"},{\"nom\":\"dry-starfish\",\"hex\":\"B0ADDE\"},{\"nom\":\"exploding-star\",\"hex\":\"FF3BD9\"},{\"nom\":\"fairstar\",\"hex\":\"6AA19D\"},{\"nom\":\"falling-star\",\"hex\":\"CBE4F2\"},{\"nom\":\"five-star\",\"hex\":\"FF4AAB\"},{\"nom\":\"frozen-custard\",\"hex\":\"FABFED\"},{\"nom\":\"guiding-star\",\"hex\":\"FFDBEB\"},{\"nom\":\"hint-of-cowardly-custard\",\"hex\":\"FAE0FA\"},{\"nom\":\"hint-of-star-gate\",\"hex\":\"D5EDE6\"},{\"nom\":\"hint-of-starlight\",\"hex\":\"D7F5ED\"},{\"nom\":\"hint-of-starlight-blue\",\"hex\":\"D8E6E8\"},{\"nom\":\"hollywood-starlet\",\"hex\":\"F28ADB\"},{\"nom\":\"honey-mustard\",\"hex\":\"B573C9\"},{\"nom\":\"ice-cold-stare\",\"hex\":\"B1B394\"},{\"nom\":\"kickstart-purple\",\"hex\":\"769456\"},{\"nom\":\"light-cowardly-custard\",\"hex\":\"FAD4F7\"},{\"nom\":\"light-mustard\",\"hex\":\"F763DB\"},{\"nom\":\"light-star-gate\",\"hex\":\"C8E6DA\"},{\"nom\":\"light-starlight\",\"hex\":\"C9F0E9\"},{\"nom\":\"light-starlight-blue\",\"hex\":\"CAD9DE\"},{\"nom\":\"lonestar\",\"hex\":\"527570\"},{\"nom\":\"magical-stardust\",\"hex\":\"EBF0FF\"},{\"nom\":\"meridian-star\",\"hex\":\"7B8D9E\"},{\"nom\":\"mr-mustard\",\"hex\":\"E361CF\"},{\"nom\":\"mustard\",\"hex\":\"CF00DE\"},{\"nom\":\"mustard-brown\",\"hex\":\"AB05BA\"},{\"nom\":\"mustard-gold\",\"hex\":\"B075CF\"},{\"nom\":\"mustard-green\",\"hex\":\"A805ED\"},{\"nom\":\"mustard-magic\",\"hex\":\"856ED9\"},{\"nom\":\"mustard-sauce\",\"hex\":\"ED70CC\"},{\"nom\":\"mustard-seed\",\"hex\":\"C730CC\"},{\"nom\":\"mustard-yellow\",\"hex\":\"D10DE6\"},{\"nom\":\"nautical-star\",\"hex\":\"ABEDEB\"},{\"nom\":\"north-star\",\"hex\":\"F2ADEB\"},{\"nom\":\"northern-star\",\"hex\":\"FFEBFF\"},{\"nom\":\"pale-mustard\",\"hex\":\"D67AE3\"},{\"nom\":\"pearly-star\",\"hex\":\"E3F5FF\"},{\"nom\":\"popstar\",\"hex\":\"BF856B\"},{\"nom\":\"purple-starburst\",\"hex\":\"B0CF9E\"},{\"nom\":\"riding-star\",\"hex\":\"9FEDFC\"},{\"nom\":\"rum-custard\",\"hex\":\"E8BAE3\"},{\"nom\":\"star-anise\",\"hex\":\"5CB8DE\"},{\"nom\":\"star-bright\",\"hex\":\"E8BFF2\"},{\"nom\":\"star-city\",\"hex\":\"578A80\"},{\"nom\":\"star-command-blue\",\"hex\":\"000000\"},{\"nom\":\"star-gate\",\"hex\":\"B8DECE\"},{\"nom\":\"star-grass\",\"hex\":\"747787\"},{\"nom\":\"star-magic\",\"hex\":\"E3F2F2\"},{\"nom\":\"star-of-gold\",\"hex\":\"EBD9F7\"},{\"nom\":\"star-sapphire\",\"hex\":\"376140\"},{\"nom\":\"star-white\",\"hex\":\"F0F7FF\"},{\"nom\":\"star-studded\",\"hex\":\"F7B3F2\"},{\"nom\":\"starbur\",\"hex\":\"6B309C\"},{\"nom\":\"starburst\",\"hex\":\"DCF0F2\"},{\"nom\":\"stardust\",\"hex\":\"DEC9F2\"},{\"nom\":\"starfish\",\"hex\":\"E6B8D1\"},{\"nom\":\"starfleet-blue\",\"hex\":\"000000\"},{\"nom\":\"stargazer\",\"hex\":\"399E8A\"},{\"nom\":\"stargazing\",\"hex\":\"42E3D8\"},{\"nom\":\"stark-white\",\"hex\":\"D1DEF0\"},{\"nom\":\"starlight\",\"hex\":\"BCEBDD\"},{\"nom\":\"starlight-blue\",\"hex\":\"B4D9D2\"},{\"nom\":\"starlit-eve\",\"hex\":\"38B092\"},{\"nom\":\"starry-night\",\"hex\":\"27452F\"},{\"nom\":\"starship\",\"hex\":\"E340F7\"},{\"nom\":\"starsilt\",\"hex\":\"74B59A\"},{\"nom\":\"starstruck\",\"hex\":\"466B41\"},{\"nom\":\"twinkle-little-star\",\"hex\":\"FC9CEB\"},{\"nom\":\"vanilla-custard\",\"hex\":\"F2C7EB\"},{\"nom\":\"westar\",\"hex\":\"D4EDFA\"},{\"nom\":\"xakestari-white\",\"hex\":\"FFDEF2\"},{\"nom\":\"actors-star\",\"hex\":\"A6FAFC\"},{\"nom\":\"coastal-breeze\",\"hex\":\"DEE3DE\"},{\"nom\":\"coastal-crush\",\"hex\":\"B4DAF0\"},{\"nom\":\"coastal-fjord\",\"hex\":\"4FA177\"},{\"nom\":\"coastal-fringe\",\"hex\":\"80ABA4\"},{\"nom\":\"coastal-surf\",\"hex\":\"2E5932\"},{\"nom\":\"coastal-trim\",\"hex\":\"BD95BD\"},{\"nom\":\"costa-rican-palm\",\"hex\":\"C45454\"},{\"nom\":\"crystal-brooke\",\"hex\":\"E3F2FC\"},{\"nom\":\"crystal-clear\",\"hex\":\"F5F5F2\"},{\"nom\":\"crystal-grey\",\"hex\":\"D6E8F0\"},{\"nom\":\"crystal-river\",\"hex\":\"AFBDB3\"},{\"nom\":\"crystal-rose\",\"hex\":\"FCC7C4\"},{\"nom\":\"distant-horizon\",\"hex\":\"F0F5F2\"},{\"nom\":\"distant-thunder\",\"hex\":\"7EEDEB\"},{\"nom\":\"fiesta-rojo\",\"hex\":\"B5B3AD\"},{\"nom\":\"hint-of-stately-frills\",\"hex\":\"DEFCF7\"},{\"nom\":\"house-stark-grey\",\"hex\":\"4ED9AD\"},{\"nom\":\"instant-orange\",\"hex\":\"FF298C\"},{\"nom\":\"instant-relief\",\"hex\":\"EDE3F7\"},{\"nom\":\"ishtar\",\"hex\":\"47E6C3\"},{\"nom\":\"light-stately-frills\",\"hex\":\"D1FFF7\"},{\"nom\":\"nostalgia-rose\",\"hex\":\"A3C4BA\"},{\"nom\":\"pakistan-green\",\"hex\":\"000000\"},{\"nom\":\"pistachio-cream\",\"hex\":\"D5F0F0\"},{\"nom\":\"pistachio-flour\",\"hex\":\"4F008C\"},{\"nom\":\"pistachio-green\",\"hex\":\"A999CC\"},{\"nom\":\"pistachio-ice-cream\",\"hex\":\"A0D3DE\"},{\"nom\":\"precious-nectar\",\"hex\":\"FF9CDE\"},{\"nom\":\"sacrifice-altar\",\"hex\":\"850303\"},{\"nom\":\"salmon-tartare\",\"hex\":\"FFAB9C\"},{\"nom\":\"sea-star\",\"hex\":\"4D8079\"},{\"nom\":\"silk-star\",\"hex\":\"F5CFF7\"},{\"nom\":\"silver-star\",\"hex\":\"98D4B8\"},{\"nom\":\"solitary-state\",\"hex\":\"C3F5FA\"},{\"nom\":\"spiced-nectarine\",\"hex\":\"FF73BA\"},{\"nom\":\"spicy-mustard\",\"hex\":\"731CDB\"},{\"nom\":\"stadium-grass\",\"hex\":\"D52FDE\"},{\"nom\":\"stalactite-brown\",\"hex\":\"D4C9EB\"},{\"nom\":\"stanford-green\",\"hex\":\"659EB5\"},{\"nom\":\"stanford-stone\",\"hex\":\"BDD4E8\"},{\"nom\":\"stately-frills\",\"hex\":\"C4FCF5\"},{\"nom\":\"statue-of-liberty\",\"hex\":\"377580\"},{\"nom\":\"superstar\",\"hex\":\"1D4731\"},{\"nom\":\"wishing-star\",\"hex\":\"61F0D1\"},{\"nom\":\"woodstain-brown\",\"hex\":\"78A3E0\"},{\"nom\":\"caster-sugar\",\"hex\":\"FFE8FF\"},{\"nom\":\"cloistered-garden\",\"hex\":\"99B6DE\"},{\"nom\":\"dusty-cedar\",\"hex\":\"DEA8AB\"},{\"nom\":\"estuary-blue\",\"hex\":\"709C8C\"},{\"nom\":\"flagstone-quartzite\",\"hex\":\"99D5F7\"},{\"nom\":\"frosted-garden\",\"hex\":\"E1CCE8\"},{\"nom\":\"frosted-sugar\",\"hex\":\"D6E8E0\"},{\"nom\":\"hint-of-frosted-sugar\",\"hex\":\"E8F0ED\"},{\"nom\":\"light-frosted-sugar\",\"hex\":\"DEEDE8\"},{\"nom\":\"mystic-maroon\",\"hex\":\"ADB363\"},{\"nom\":\"pastel-parchment\",\"hex\":\"E6EBF2\"},{\"nom\":\"postwar-boom\",\"hex\":\"457557\"},{\"nom\":\"questionmark-block\",\"hex\":\"F04FA3\"},{\"nom\":\"roller-coaster-chariot\",\"hex\":\"000000\"},{\"nom\":\"steel-armor\",\"hex\":\"75FCF7\"},{\"nom\":\"stellar\",\"hex\":\"468F71\"},{\"nom\":\"stellar-light\",\"hex\":\"FFDEF5\"},{\"nom\":\"stellar-mist\",\"hex\":\"ABE8EB\"},{\"nom\":\"steveareno-beige\",\"hex\":\"C4D4EB\"},{\"nom\":\"stone-harbour\",\"hex\":\"E8EDF7\"},{\"nom\":\"stone-hearth\",\"hex\":\"62F0ED\"},{\"nom\":\"stone-pillar\",\"hex\":\"F0E3F5\"},{\"nom\":\"stone-quarry\",\"hex\":\"EDEDF7\"},{\"nom\":\"string-of-pearls\",\"hex\":\"EBEBF7\"},{\"nom\":\"toasted-marshmallow\",\"hex\":\"F0E3F0\"},{\"nom\":\"westcar-papyrus\",\"hex\":\"A3ADF5\"},{\"nom\":\"yellow-stone-park\",\"hex\":\"E3D1F0\"},{\"nom\":\"almost-apricot\",\"hex\":\"E6ADC7\"},{\"nom\":\"amethyst-ganzstar\",\"hex\":\"8F8F00\"},{\"nom\":\"ancestral-water\",\"hex\":\"D1FFFF\"},{\"nom\":\"artificial-strawberry\",\"hex\":\"FFA342\"},{\"nom\":\"astorath-red\",\"hex\":\"DE3054\"},{\"nom\":\"astral-aura\",\"hex\":\"37AB67\"},{\"nom\":\"astral-spirit\",\"hex\":\"8E9C83\"},{\"nom\":\"astrogranite-debris\",\"hex\":\"3CC7AD\"},{\"nom\":\"astrolab-reef\",\"hex\":\"2D3829\"},{\"nom\":\"bavarian-sweet-mustard\",\"hex\":\"4D40A3\"},{\"nom\":\"bestial-brown\",\"hex\":\"6B0087\"},{\"nom\":\"bootstrap-leather\",\"hex\":\"784573\"},{\"nom\":\"castellan-green\",\"hex\":\"459FD1\"},{\"nom\":\"castlevania-heart\",\"hex\":\"A83000\"},{\"nom\":\"celestial-green\",\"hex\":\"2C2C33\"},{\"nom\":\"celestra-grey\",\"hex\":\"98E3DE\"},{\"nom\":\"chestnut-leather\",\"hex\":\"614F6B\"},{\"nom\":\"christina-brown\",\"hex\":\"000000\"},{\"nom\":\"creamy-strawberry\",\"hex\":\"FCE0D4\"},{\"nom\":\"dark-strawberry\",\"hex\":\"809687\"},{\"nom\":\"deepest-water\",\"hex\":\"459981\"},{\"nom\":\"desert-pear\",\"hex\":\"AADEFA\"},{\"nom\":\"desert-star\",\"hex\":\"FAE6F5\"},{\"nom\":\"dusty-jade-green\",\"hex\":\"7B9CAD\"},{\"nom\":\"dusty-lavender\",\"hex\":\"ABFAC7\"},{\"nom\":\"dusty-trail-rider\",\"hex\":\"C2D9F2\"},{\"nom\":\"eastlake-lavender\",\"hex\":\"87E3EB\"},{\"nom\":\"forest-tapestry\",\"hex\":\"A4A6E0\"},{\"nom\":\"genestealer-purple\",\"hex\":\"78B366\"},{\"nom\":\"grass-stain-green\",\"hex\":\"BE23C2\"},{\"nom\":\"hashita-purple\",\"hex\":\"8CFCAD\"},{\"nom\":\"homestead-red\",\"hex\":\"99B8B8\"},{\"nom\":\"hospital-green\",\"hex\":\"9C80AD\"},{\"nom\":\"kinsusutake-brown\",\"hex\":\"7D5C9E\"},{\"nom\":\"lustrian-undergrowth\",\"hex\":\"4012B8\"},{\"nom\":\"lusty-lavender\",\"hex\":\"8CFCEB\"},{\"nom\":\"mechanicus-standard-grey\",\"hex\":\"3CC9C3\"},{\"nom\":\"mission-courtyard\",\"hex\":\"F2BDDB\"},{\"nom\":\"misty-afternoon\",\"hex\":\"C5CFE6\"},{\"nom\":\"mystical-trip\",\"hex\":\"7AF5DE\"},{\"nom\":\"nasturcian-flower\",\"hex\":\"E62154\"},{\"nom\":\"oyster-cracker\",\"hex\":\"F5DBFA\"},{\"nom\":\"pastel-lavender\",\"hex\":\"D9E8BF\"},{\"nom\":\"sanctuary\",\"hex\":\"D4C7F2\"},{\"nom\":\"sanctuary-spa\",\"hex\":\"66735A\"},{\"nom\":\"santa-fe-sunrise\",\"hex\":\"CC82BA\"},{\"nom\":\"santas-grey\",\"hex\":\"9EE6CF\"},{\"nom\":\"shooting-star\",\"hex\":\"EBF5FA\"},{\"nom\":\"siesta-dreams\",\"hex\":\"C9A3D1\"},{\"nom\":\"siesta-rose\",\"hex\":\"ED8282\"},{\"nom\":\"smooth-hound-shark\",\"hex\":\"98D7D9\"},{\"nom\":\"soft-bark\",\"hex\":\"8AD1DB\"},{\"nom\":\"soft-charcoal\",\"hex\":\"84DBBD\"},{\"nom\":\"solitaire\",\"hex\":\"C5D3E3\"},{\"nom\":\"spartan-crimson\",\"hex\":\"9E241F\"},{\"nom\":\"st-patricks-blue\",\"hex\":\"234A19\"},{\"nom\":\"stpatrick\",\"hex\":\"2B2C4F\"},{\"nom\":\"steamboat-geyser\",\"hex\":\"D1DBF7\"},{\"nom\":\"steamy-spring\",\"hex\":\"B2D3DB\"},{\"nom\":\"stegadon-scale-green\",\"hex\":\"07120D\"},{\"nom\":\"stella-dora\",\"hex\":\"FAA8E0\"},{\"nom\":\"stillwater\",\"hex\":\"71A398\"},{\"nom\":\"stillwater-lake\",\"hex\":\"C1DECE\"},{\"nom\":\"stirland-battlemire\",\"hex\":\"AD4085\"},{\"nom\":\"stonewall-grey\",\"hex\":\"C2FFFF\"},{\"nom\":\"stormy-strait-green\",\"hex\":\"101719\"},{\"nom\":\"stormy-strait-grey\",\"hex\":\"6AA68D\"},{\"nom\":\"stormy-weather\",\"hex\":\"59CFBE\"},{\"nom\":\"straken-green\",\"hex\":\"623BC4\"},{\"nom\":\"stratford-sage\",\"hex\":\"8CCCF5\"},{\"nom\":\"stratosphere\",\"hex\":\"9DC4BB\"},{\"nom\":\"strawberry\",\"hex\":\"FA4529\"},{\"nom\":\"strawberry-blonde\",\"hex\":\"FFDBD9\"},{\"nom\":\"strawberry-confection\",\"hex\":\"F5CFC7\"},{\"nom\":\"strawberry-cream\",\"hex\":\"F5CCCC\"},{\"nom\":\"strawberry-dust\",\"hex\":\"FFEBF0\"},{\"nom\":\"strawberry-frappe\",\"hex\":\"FFABA3\"},{\"nom\":\"strawberry-frosting\",\"hex\":\"FFFC70\"},{\"nom\":\"strawberry-glaze\",\"hex\":\"D9DED6\"},{\"nom\":\"strawberry-ice\",\"hex\":\"E89E99\"},{\"nom\":\"strawberry-jam\",\"hex\":\"87757D\"},{\"nom\":\"strawberry-jubilee\",\"hex\":\"BFC2B0\"},{\"nom\":\"strawberry-mousse\",\"hex\":\"A6C29C\"},{\"nom\":\"strawberry-pink\",\"hex\":\"F59485\"},{\"nom\":\"strawberry-shortcake\",\"hex\":\"FA9C91\"},{\"nom\":\"strawberry-smoothie\",\"hex\":\"E8B8AD\"},{\"nom\":\"strawberry-soap\",\"hex\":\"F79E8C\"},{\"nom\":\"strawberry-spinach-red\",\"hex\":\"FA2442\"},{\"nom\":\"strawberry-surprise\",\"hex\":\"BAC2A1\"},{\"nom\":\"strawberry-yogurt\",\"hex\":\"E8C4C4\"},{\"nom\":\"strawflower\",\"hex\":\"DED6DB\"},{\"nom\":\"strikemaster\",\"hex\":\"94DEB8\"},{\"nom\":\"strong-strawberry\",\"hex\":\"8A6173\"},{\"nom\":\"stunning-sapphire\",\"hex\":\"182E1E\"},{\"nom\":\"succulent-garden\",\"hex\":\"BED1ED\"},{\"nom\":\"sweet-earth\",\"hex\":\"AB9CDB\"},{\"nom\":\"sweet-garden\",\"hex\":\"5E6673\"},{\"nom\":\"sweet-gardenia\",\"hex\":\"F0E8F2\"},{\"nom\":\"sweet-mustard\",\"hex\":\"D18AE0\"},{\"nom\":\"sweet-sparrow\",\"hex\":\"A8A3E0\"},{\"nom\":\"sweetheart\",\"hex\":\"F2E3CC\"},{\"nom\":\"sylvaneth-bark\",\"hex\":\"AB91C2\"},{\"nom\":\"synthetic-spearmint\",\"hex\":\"1E0F1F\"},{\"nom\":\"toast-and-butter\",\"hex\":\"D1A1D1\"},{\"nom\":\"unripe-strawberry\",\"hex\":\"F7AD94\"},{\"nom\":\"wild-strawberry\",\"hex\":\"FF9933\"},{\"nom\":\"wisteria-powder\",\"hex\":\"E6E6B3\"},{\"nom\":\"wisteria-purple\",\"hex\":\"87E08B\"},{\"nom\":\"wisteria-trellis\",\"hex\":\"B2EDD8\"},{\"nom\":\"british-shorthair\",\"hex\":\"5FD4BC\"},{\"nom\":\"crimson-strawberry\",\"hex\":\"9E7347\"},{\"nom\":\"desert-chaparral\",\"hex\":\"72BBED\"},{\"nom\":\"desert-panzer\",\"hex\":\"BFE1F2\"},{\"nom\":\"essential-brown\",\"hex\":\"7D94D4\"},{\"nom\":\"hint-of-spatial-spirit\",\"hex\":\"DCD8E6\"},{\"nom\":\"light-spatial-spirit\",\"hex\":\"D3CCDE\"},{\"nom\":\"russet-leather\",\"hex\":\"967D96\"},{\"nom\":\"sacramento-state-green\",\"hex\":\"000000\"},{\"nom\":\"salt-island-green\",\"hex\":\"75D4F7\"},{\"nom\":\"salt-water\",\"hex\":\"96B099\"},{\"nom\":\"salt-water-taffy\",\"hex\":\"D1BAD1\"},{\"nom\":\"salty-cracker\",\"hex\":\"E391E0\"},{\"nom\":\"samanthas-room\",\"hex\":\"F2F2E3\"},{\"nom\":\"satin-latour\",\"hex\":\"FAB3DB\"},{\"nom\":\"satsuma-imo-red\",\"hex\":\"96B578\"},{\"nom\":\"sculptural-silver\",\"hex\":\"D0F0F5\"},{\"nom\":\"secret-safari\",\"hex\":\"C787F0\"},{\"nom\":\"silver-strawberry\",\"hex\":\"F2C9CC\"},{\"nom\":\"smooth-as-corn-silk\",\"hex\":\"F5BAED\"},{\"nom\":\"snail-trail-silver\",\"hex\":\"E8F7FA\"},{\"nom\":\"snakebite-leather\",\"hex\":\"BA0ADE\"},{\"nom\":\"soft-amber\",\"hex\":\"CFCCEB\"},{\"nom\":\"soft-cashmere\",\"hex\":\"F0E6C2\"},{\"nom\":\"soft-lavender\",\"hex\":\"F5FFED\"},{\"nom\":\"soft-leather\",\"hex\":\"D98CBD\"},{\"nom\":\"soothsayer\",\"hex\":\"80AD87\"},{\"nom\":\"spatial-spirit\",\"hex\":\"C0B8CF\"},{\"nom\":\"spearmint-water\",\"hex\":\"B2C0C2\"},{\"nom\":\"spectra-green\",\"hex\":\"000000\"},{\"nom\":\"sweet-lavender\",\"hex\":\"9BCCA3\"},{\"nom\":\"university-of-california-gold\",\"hex\":\"B836BD\"},{\"nom\":\"cheater\",\"hex\":\"ED63BD\"},{\"nom\":\"beaten-copper\",\"hex\":\"73637A\"},{\"nom\":\"beaten-purple\",\"hex\":\"4DFA0F\"},{\"nom\":\"beaten-track\",\"hex\":\"D1B3E8\"},{\"nom\":\"blue-boater\",\"hex\":\"629979\"},{\"nom\":\"bridgewater\",\"hex\":\"52A8BA\"},{\"nom\":\"deep-water\",\"hex\":\"26422E\"},{\"nom\":\"deepest-water\",\"hex\":\"459981\"},{\"nom\":\"edgewater\",\"hex\":\"C1CFE3\"},{\"nom\":\"fresh-water\",\"hex\":\"C6CCBC\"},{\"nom\":\"green-caterpillar\",\"hex\":\"9941CC\"},{\"nom\":\"green-waterloo\",\"hex\":\"2DC8FA\"},{\"nom\":\"hidden-waters\",\"hex\":\"23635C\"},{\"nom\":\"hint-of-lavender-water\",\"hex\":\"E6F7EB\"},{\"nom\":\"iced-watermelon\",\"hex\":\"D1E0D6\"},{\"nom\":\"key-lime-water\",\"hex\":\"E98AF2\"},{\"nom\":\"lake-water\",\"hex\":\"85BFC7\"},{\"nom\":\"lavender-sweater\",\"hex\":\"BDFCAE\"},{\"nom\":\"lavender-water\",\"hex\":\"D1F0D8\"},{\"nom\":\"light-lavender-water\",\"hex\":\"DFF5E4\"},{\"nom\":\"melon-water\",\"hex\":\"FCB5BD\"},{\"nom\":\"meltwater\",\"hex\":\"78968D\"},{\"nom\":\"pine-water\",\"hex\":\"E6E8FC\"},{\"nom\":\"purple-people-eater\",\"hex\":\"5BEBA9\"},{\"nom\":\"reef-waters\",\"hex\":\"6FA89E\"},{\"nom\":\"rose-water\",\"hex\":\"F5E0E3\"},{\"nom\":\"saline-water\",\"hex\":\"C5D9D9\"},{\"nom\":\"shore-water\",\"hex\":\"68A398\"},{\"nom\":\"slice-of-watermelon\",\"hex\":\"E08C78\"},{\"nom\":\"summer-waters\",\"hex\":\"22381E\"},{\"nom\":\"underwater\",\"hex\":\"CED7DE\"},{\"nom\":\"underwater-flare\",\"hex\":\"E8B59C\"},{\"nom\":\"aladdins-feather\",\"hex\":\"545400\"},{\"nom\":\"barbarian-leather\",\"hex\":\"A10DB5\"},{\"nom\":\"bean-counter\",\"hex\":\"68B3E3\"},{\"nom\":\"black-leather-jacket\",\"hex\":\"2589B3\"},{\"nom\":\"bootstrap-leather\",\"hex\":\"784573\"},{\"nom\":\"breakwater\",\"hex\":\"D1EBE4\"},{\"nom\":\"canary-feather\",\"hex\":\"F07DED\"},{\"nom\":\"chocobo-feather\",\"hex\":\"FA08C2\"},{\"nom\":\"clear-water\",\"hex\":\"ABC7C1\"},{\"nom\":\"cobra-leather\",\"hex\":\"B00DCF\"},{\"nom\":\"dirty-leather\",\"hex\":\"421200\"},{\"nom\":\"down-feathers\",\"hex\":\"FFE8FA\"},{\"nom\":\"easter-egg\",\"hex\":\"91B88D\"},{\"nom\":\"easter-green\",\"hex\":\"8B468C\"},{\"nom\":\"easter-purple\",\"hex\":\"C2C255\"},{\"nom\":\"easter-rabbit\",\"hex\":\"C7FAF5\"},{\"nom\":\"eastern-blue\",\"hex\":\"000000\"},{\"nom\":\"eastern-gold\",\"hex\":\"B896D6\"},{\"nom\":\"eastern-sky\",\"hex\":\"8EADA0\"},{\"nom\":\"eastern-wolf\",\"hex\":\"DBF5FA\"},{\"nom\":\"feather-boa\",\"hex\":\"F2D9D4\"},{\"nom\":\"feather-falls\",\"hex\":\"60D6C5\"},{\"nom\":\"feather-grey\",\"hex\":\"B8DBF0\"},{\"nom\":\"feather-white\",\"hex\":\"E8F7FC\"},{\"nom\":\"featherbed\",\"hex\":\"AEC2AC\"},{\"nom\":\"featherstone\",\"hex\":\"CCE8F7\"},{\"nom\":\"flamingo-feather\",\"hex\":\"F7DEC2\"},{\"nom\":\"floating-feather\",\"hex\":\"E8D4ED\"},{\"nom\":\"gladiator-leather\",\"hex\":\"A85E8A\"},{\"nom\":\"great-serpent\",\"hex\":\"497350\"},{\"nom\":\"heather\",\"hex\":\"A2F2BB\"},{\"nom\":\"heather-berry\",\"hex\":\"E88C5C\"},{\"nom\":\"heather-rose\",\"hex\":\"ADBAA1\"},{\"nom\":\"heathered-grey\",\"hex\":\"B5D1F7\"},{\"nom\":\"hint-of-easter-rabbit\",\"hex\":\"DEFCFA\"},{\"nom\":\"hint-of-feather-boa\",\"hex\":\"F7E8E8\"},{\"nom\":\"hint-of-featherbed\",\"hex\":\"D1DED3\"},{\"nom\":\"hint-of-weathered-hide\",\"hex\":\"E8F0F5\"},{\"nom\":\"leather\",\"hex\":\"8F94BD\"},{\"nom\":\"leather-bound\",\"hex\":\"9191C2\"},{\"nom\":\"leather-brown\",\"hex\":\"964794\"},{\"nom\":\"leather-chair\",\"hex\":\"A378B8\"},{\"nom\":\"leather-loafers\",\"hex\":\"87A1DB\"},{\"nom\":\"leather-satchel\",\"hex\":\"7D78A3\"},{\"nom\":\"leather-tan\",\"hex\":\"A382CC\"},{\"nom\":\"light-easter-rabbit\",\"hex\":\"D4FCF7\"},{\"nom\":\"light-feather-boa\",\"hex\":\"F5E0DE\"},{\"nom\":\"light-featherbed\",\"hex\":\"C0D1C0\"},{\"nom\":\"light-leather\",\"hex\":\"94C7E8\"},{\"nom\":\"light-weathered-hide\",\"hex\":\"E0EDF2\"},{\"nom\":\"moorland-heather\",\"hex\":\"CCEDBA\"},{\"nom\":\"moroccan-leather\",\"hex\":\"6E9E9E\"},{\"nom\":\"mountain-heather\",\"hex\":\"EDF7EB\"},{\"nom\":\"natural-leather\",\"hex\":\"A80014\"},{\"nom\":\"old-leather\",\"hex\":\"A89CD4\"},{\"nom\":\"pearl-oyster\",\"hex\":\"DEEBF7\"},{\"nom\":\"sea-drifter\",\"hex\":\"4B8268\"},{\"nom\":\"sea-hunter\",\"hex\":\"244D38\"},{\"nom\":\"sea-monster\",\"hex\":\"65A2B8\"},{\"nom\":\"soft-leather\",\"hex\":\"D98CBD\"},{\"nom\":\"stormy-weather\",\"hex\":\"59CFBE\"},{\"nom\":\"teal-waters\",\"hex\":\"000000\"},{\"nom\":\"warm-leather\",\"hex\":\"C770C9\"},{\"nom\":\"weather-board\",\"hex\":\"9EC9ED\"},{\"nom\":\"weathered-bamboo\",\"hex\":\"5970A6\"},{\"nom\":\"weathered-blue\",\"hex\":\"7CD6D2\"},{\"nom\":\"weathered-brown\",\"hex\":\"59D9E6\"},{\"nom\":\"weathered-coral\",\"hex\":\"EBB8E3\"},{\"nom\":\"weathered-hide\",\"hex\":\"D6E8ED\"},{\"nom\":\"weathered-leather\",\"hex\":\"8F82AB\"},{\"nom\":\"weathered-saddle\",\"hex\":\"B582A3\"},{\"nom\":\"weathered-sandstone\",\"hex\":\"DEBDDB\"},{\"nom\":\"weathered-stone\",\"hex\":\"C4FFFF\"},{\"nom\":\"weathered-wicker\",\"hex\":\"9682C9\"},{\"nom\":\"weathered-wood\",\"hex\":\"B0C2E0\"},{\"nom\":\"alpine-alabaster\",\"hex\":\"BACFC4\"},{\"nom\":\"ancestral-water\",\"hex\":\"D1FFFF\"},{\"nom\":\"applegate-park\",\"hex\":\"ADD6FC\"},{\"nom\":\"bee-master\",\"hex\":\"7382C9\"},{\"nom\":\"blue-aster\",\"hex\":\"000000\"},{\"nom\":\"blue-garter\",\"hex\":\"A3C9B3\"},{\"nom\":\"chinese-hamster\",\"hex\":\"EBDBED\"},{\"nom\":\"chinese-lantern\",\"hex\":\"F05C99\"},{\"nom\":\"continental-waters\",\"hex\":\"99BFBB\"},{\"nom\":\"decanter\",\"hex\":\"ADEDCE\"},{\"nom\":\"delicate-brown\",\"hex\":\"A6D4D6\"},{\"nom\":\"delta-waters\",\"hex\":\"C4DEFC\"},{\"nom\":\"golden-gate-bridge\",\"hex\":\"BF3B47\"},{\"nom\":\"golden-hamster\",\"hex\":\"D942B8\"},{\"nom\":\"green-alabaster\",\"hex\":\"C8E3FA\"},{\"nom\":\"green-garter\",\"hex\":\"615F85\"},{\"nom\":\"green-lantern\",\"hex\":\"9D36BF\"},{\"nom\":\"heath-spotted-orchid\",\"hex\":\"9EFF99\"},{\"nom\":\"hint-of-continental-waters\",\"hex\":\"C3DBD9\"},{\"nom\":\"hint-of-green-alabaster\",\"hex\":\"E3F2FF\"},{\"nom\":\"intermediate-green\",\"hex\":\"131029\"},{\"nom\":\"ken-masters-red\",\"hex\":\"ED2930\"},{\"nom\":\"light-continental-waters\",\"hex\":\"B0CFCC\"},{\"nom\":\"light-green-alabaster\",\"hex\":\"D7EBFC\"},{\"nom\":\"mineral-water\",\"hex\":\"DFDCF2\"},{\"nom\":\"pixelated-grass\",\"hex\":\"000000\"},{\"nom\":\"roller-coaster\",\"hex\":\"8CDBF2\"},{\"nom\":\"roller-coaster-chariot\",\"hex\":\"000000\"},{\"nom\":\"rosey-afterglow\",\"hex\":\"FAD1CC\"},{\"nom\":\"sacramento-state-green\",\"hex\":\"000000\"},{\"nom\":\"seattle-red\",\"hex\":\"7D5742\"},{\"nom\":\"speckled-easter-egg\",\"hex\":\"D4B8A3\"},{\"nom\":\"spell-caster\",\"hex\":\"4AD6BD\"},{\"nom\":\"strikemaster\",\"hex\":\"94DEB8\"},{\"nom\":\"theatre-dress\",\"hex\":\"279696\"},{\"nom\":\"variegated-frond\",\"hex\":\"74ABED\"},{\"nom\":\"vietnamese-lantern\",\"hex\":\"ED7ACF\"},{\"nom\":\"wheat-beer\",\"hex\":\"BF4FC2\"},{\"nom\":\"angel-feather\",\"hex\":\"F5FAFA\"},{\"nom\":\"angels-feather\",\"hex\":\"F2F2FC\"},{\"nom\":\"antique-heather\",\"hex\":\"CCFCE8\"},{\"nom\":\"bell-heather\",\"hex\":\"A4ED9D\"},{\"nom\":\"bleu-nattier\",\"hex\":\"9BC8CC\"},{\"nom\":\"blue-heather\",\"hex\":\"AEE6DF\"},{\"nom\":\"buttery-leather\",\"hex\":\"D4A1D4\"},{\"nom\":\"cake-batter\",\"hex\":\"F0E8FC\"},{\"nom\":\"cambridge-leather\",\"hex\":\"8C6EB5\"},{\"nom\":\"chestnut-leather\",\"hex\":\"614F6B\"},{\"nom\":\"crackled-leather\",\"hex\":\"A37DC4\"},{\"nom\":\"creamed-butter\",\"hex\":\"FFD4FC\"},{\"nom\":\"creamy-strawberry\",\"hex\":\"FCE0D4\"},{\"nom\":\"deep-leather\",\"hex\":\"40B8C7\"},{\"nom\":\"deer-leather\",\"hex\":\"AB4DAB\"},{\"nom\":\"dove-feather\",\"hex\":\"75C7C9\"},{\"nom\":\"dreamcatcher\",\"hex\":\"A6E1ED\"},{\"nom\":\"earthy-ocher\",\"hex\":\"B8A6DB\"},{\"nom\":\"grey-matter\",\"hex\":\"C7ADA1\"},{\"nom\":\"lighthearted-rose\",\"hex\":\"C7D9CF\"},{\"nom\":\"limbert-leather\",\"hex\":\"99BDE3\"},{\"nom\":\"loose-leather\",\"hex\":\"8575BA\"},{\"nom\":\"lounge-leather\",\"hex\":\"5791B8\"},{\"nom\":\"mouse-catcher\",\"hex\":\"9EE8EB\"},{\"nom\":\"peanut-butter\",\"hex\":\"FF5EB8\"},{\"nom\":\"pewter-patter\",\"hex\":\"BAE3F7\"},{\"nom\":\"pitter-patter\",\"hex\":\"9BC6CC\"},{\"nom\":\"purple-feather\",\"hex\":\"59C97F\"},{\"nom\":\"purple-heather\",\"hex\":\"BAE0C3\"},{\"nom\":\"red-leather\",\"hex\":\"AB7873\"},{\"nom\":\"russet-leather\",\"hex\":\"967D96\"},{\"nom\":\"silver-feather\",\"hex\":\"EDF7FC\"},{\"nom\":\"snakebite-leather\",\"hex\":\"BA0ADE\"},{\"nom\":\"spearmint-water\",\"hex\":\"B2C0C2\"},{\"nom\":\"suede-leather\",\"hex\":\"8AA3BF\"},{\"nom\":\"tanned-leather\",\"hex\":\"F208CC\"},{\"nom\":\"wet-weather\",\"hex\":\"91FCFC\"},{\"nom\":\"adeptus-battlegrey\",\"hex\":\"7EEDE6\"},{\"nom\":\"ballerina-tears\",\"hex\":\"F2BAC4\"},{\"nom\":\"beauty-secret\",\"hex\":\"C7CFC9\"},{\"nom\":\"canterbury-cathedral\",\"hex\":\"B3D4F5\"},{\"nom\":\"caulerpa-lentillifera\",\"hex\":\"598E91\"},{\"nom\":\"earhart-emerald\",\"hex\":\"418EA3\"},{\"nom\":\"earthly-pleasures\",\"hex\":\"9E9EDB\"},{\"nom\":\"eastlake-lavender\",\"hex\":\"87E3EB\"},{\"nom\":\"enchanted-silver\",\"hex\":\"B5F5EB\"},{\"nom\":\"georgian-leather\",\"hex\":\"CF73A6\"},{\"nom\":\"hearts-desire\",\"hex\":\"AB8C5C\"},{\"nom\":\"majolica-earthenware\",\"hex\":\"968AA8\"},{\"nom\":\"mermaid-tears\",\"hex\":\"D8ADF0\"},{\"nom\":\"pelican-feather\",\"hex\":\"E8D6D6\"},{\"nom\":\"permanent-geranium-lake\",\"hex\":\"E03333\"},{\"nom\":\"renanthera-orchid\",\"hex\":\"828C0D\"},{\"nom\":\"steamboat-geyser\",\"hex\":\"D1DBF7\"},{\"nom\":\"very-light-malachite-green\",\"hex\":\"64406E\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":3,\"code\":[\"eater\",\"06-primal\",\"hungry-gator-fight\"],\"clr\":\"star-eater : angelic-starlet, apple-custard, brewed-mustard, bright-star, brown-mustard, coffee-custard, colonel-mustard, cowardly-custard, creamy-custard, custard, custard-powder, custard-puff, dark-mustard, daystar, dijon-mustard, dry-starfish, exploding-star, fairstar, falling-star, five-star, frozen-custard, guiding-star, hint-of-cowardly-custard, hint-of-star-gate, hint-of-starlight, hint-of-starlight-blue, hollywood-starlet, honey-mustard, ice-cold-stare, kickstart-purple, light-cowardly-custard, light-mustard, light-star-gate, light-starlight, light-starlight-blue, lonestar, magical-stardust, meridian-star, mr-mustard, mustard, mustard-brown, mustard-gold, mustard-green, mustard-magic, mustard-sauce, mustard-seed, mustard-yellow, nautical-star, north-star, northern-star, pale-mustard, pearly-star, popstar, purple-starburst, riding-star, rum-custard, star-anise, star-bright, star-city, star-command-blue, star-gate, star-grass, star-magic, star-of-gold, star-sapphire, star-white, star-studded, starbur, starburst, stardust, starfish, starfleet-blue, stargazer, stargazing, stark-white, starlight, starlight-blue, starlit-eve, starry-night, starship, starsilt, starstruck, twinkle-little-star, vanilla-custard, westar, xakestari-white, actors-star, coastal-breeze, coastal-crush, coastal-fjord, coastal-fringe, coastal-surf, coastal-trim, costa-rican-palm, crystal-brooke, crystal-clear, crystal-grey, crystal-river, crystal-rose, distant-horizon, distant-thunder, fiesta-rojo, hint-of-stately-frills, house-stark-grey, instant-orange, instant-relief, ishtar, light-stately-frills, nostalgia-rose, pakistan-green, pistachio-cream, pistachio-flour, pistachio-green, pistachio-ice-cream, precious-nectar, sacrifice-altar, salmon-tartare, sea-star, silk-star, silver-star, solitary-state, spiced-nectarine, spicy-mustard, stadium-grass, stalactite-brown, stanford-green, stanford-stone, stately-frills, statue-of-liberty, superstar, wishing-star, woodstain-brown, caster-sugar, cloistered-garden, dusty-cedar, estuary-blue, flagstone-quartzite, frosted-garden, frosted-sugar, hint-of-frosted-sugar, light-frosted-sugar, mystic-maroon, pastel-parchment, postwar-boom, questionmark-block, roller-coaster-chariot, steel-armor, stellar, stellar-light, stellar-mist, steveareno-beige, stone-harbour, stone-hearth, stone-pillar, stone-quarry, string-of-pearls, toasted-marshmallow, westcar-papyrus, yellow-stone-park, almost-apricot, amethyst-ganzstar, ancestral-water, artificial-strawberry, astorath-red, astral-aura, astral-spirit, astrogranite-debris, astrolab-reef, bavarian-sweet-mustard, bestial-brown, bootstrap-leather, castellan-green, castlevania-heart, celestial-green, celestra-grey, chestnut-leather, christina-brown, creamy-strawberry, dark-strawberry, deepest-water, desert-pear, desert-star, dusty-jade-green, dusty-lavender, dusty-trail-rider, eastlake-lavender, forest-tapestry, genestealer-purple, grass-stain-green, hashita-purple, homestead-red, hospital-green, kinsusutake-brown, lustrian-undergrowth, lusty-lavender, mechanicus-standard-grey, mission-courtyard, misty-afternoon, mystical-trip, nasturcian-flower, oyster-cracker, pastel-lavender, sanctuary, sanctuary-spa, santa-fe-sunrise, santas-grey, shooting-star, siesta-dreams, siesta-rose, smooth-hound-shark, soft-bark, soft-charcoal, solitaire, spartan-crimson, st-patricks-blue, stpatrick, steamboat-geyser, steamy-spring, stegadon-scale-green, stella-dora, stillwater, stillwater-lake, stirland-battlemire, stonewall-grey, stormy-strait-green, stormy-strait-grey, stormy-weather, straken-green, stratford-sage, stratosphere, strawberry, strawberry-blonde, strawberry-confection, strawberry-cream, strawberry-dust, strawberry-frappe, strawberry-frosting, strawberry-glaze, strawberry-ice, strawberry-jam, strawberry-jubilee, strawberry-mousse, strawberry-pink, strawberry-shortcake, strawberry-smoothie, strawberry-soap, strawberry-spinach-red, strawberry-surprise, strawberry-yogurt, strawflower, strikemaster, strong-strawberry, stunning-sapphire, succulent-garden, sweet-earth, sweet-garden, sweet-gardenia, sweet-mustard, sweet-sparrow, sweetheart, sylvaneth-bark, synthetic-spearmint, toast-and-butter, unripe-strawberry, wild-strawberry, wisteria-powder, wisteria-purple, wisteria-trellis, british-shorthair, crimson-strawberry, desert-chaparral, desert-panzer, essential-brown, hint-of-spatial-spirit, light-spatial-spirit, russet-leather, sacramento-state-green, salt-island-green, salt-water, salt-water-taffy, salty-cracker, samanthas-room, satin-latour, satsuma-imo-red, sculptural-silver, secret-safari, silver-strawberry, smooth-as-corn-silk, snail-trail-silver, snakebite-leather, soft-amber, soft-cashmere, soft-lavender, soft-leather, soothsayer, spatial-spirit, spearmint-water, spectra-green, sweet-lavender, university-of-california-gold, cheater, beaten-copper, beaten-purple, beaten-track, blue-boater, bridgewater, deep-water, deepest-water, edgewater, fresh-water, green-caterpillar, green-waterloo, hidden-waters, hint-of-lavender-water, iced-watermelon, key-lime-water, lake-water, lavender-sweater, lavender-water, light-lavender-water, melon-water, meltwater, pine-water, purple-people-eater, reef-waters, rose-water, saline-water, shore-water, slice-of-watermelon, summer-waters, underwater, underwater-flare, aladdins-feather, barbarian-leather, bean-counter, black-leather-jacket, bootstrap-leather, breakwater, canary-feather, chocobo-feather, clear-water, cobra-leather, dirty-leather, down-feathers, easter-egg, easter-green, easter-purple, easter-rabbit, eastern-blue, eastern-gold, eastern-sky, eastern-wolf, feather-boa, feather-falls, feather-grey, feather-white, featherbed, featherstone, flamingo-feather, floating-feather, gladiator-leather, great-serpent, heather, heather-berry, heather-rose, heathered-grey, hint-of-easter-rabbit, hint-of-feather-boa, hint-of-featherbed, hint-of-weathered-hide, leather, leather-bound, leather-brown, leather-chair, leather-loafers, leather-satchel, leather-tan, light-easter-rabbit, light-feather-boa, light-featherbed, light-leather, light-weathered-hide, moorland-heather, moroccan-leather, mountain-heather, natural-leather, old-leather, pearl-oyster, sea-drifter, sea-hunter, sea-monster, soft-leather, stormy-weather, teal-waters, warm-leather, weather-board, weathered-bamboo, weathered-blue, weathered-brown, weathered-coral, weathered-hide, weathered-leather, weathered-saddle, weathered-sandstone, weathered-stone, weathered-wicker, weathered-wood, alpine-alabaster, ancestral-water, applegate-park, bee-master, blue-aster, blue-garter, chinese-hamster, chinese-lantern, continental-waters, decanter, delicate-brown, delta-waters, golden-gate-bridge, golden-hamster, green-alabaster, green-garter, green-lantern, heath-spotted-orchid, hint-of-continental-waters, hint-of-green-alabaster, intermediate-green, ken-masters-red, light-continental-waters, light-green-alabaster, mineral-water, pixelated-grass, roller-coaster, roller-coaster-chariot, rosey-afterglow, sacramento-state-green, seattle-red, speckled-easter-egg, spell-caster, strikemaster, theatre-dress, variegated-frond, vietnamese-lantern, wheat-beer, angel-feather, angels-feather, antique-heather, bell-heather, bleu-nattier, blue-heather, buttery-leather, cake-batter, cambridge-leather, chestnut-leather, crackled-leather, creamed-butter, creamy-strawberry, deep-leather, deer-leather, dove-feather, dreamcatcher, earthy-ocher, grey-matter, lighthearted-rose, limbert-leather, loose-leather, lounge-leather, mouse-catcher, peanut-butter, pewter-patter, pitter-patter, purple-feather, purple-heather, red-leather, russet-leather, silver-feather, snakebite-leather, spearmint-water, suede-leather, tanned-leather, wet-weather, adeptus-battlegrey, ballerina-tears, beauty-secret, canterbury-cathedral, caulerpa-lentillifera, earhart-emerald, earthly-pleasures, eastlake-lavender, enchanted-silver, georgian-leather, hearts-desire, majolica-earthenware, mermaid-tears, pelican-feather, permanent-geranium-lake, renanthera-orchid, steamboat-geyser, very-light-malachite-green,\",\"src\":\"025-024-017-012\",\"save\":\"./2-dat/bot/06-primal/hungry-gator-fight/star-eater.json\"},{\"idx\":\"idx\",\"name\":\"okeenokee-swamp\",\"nom\":\"okeenokee\",\"now\":0,\"state\":null,\"choice\":null,\"choiceList\":null,\"decide\":null,\"color\":{\"hex\":\"#797d4a\",\"rgb\":\"121-125-074\",\"flv\":\"taras-drapes\",\"pwr\":8,\"src\":\"3-0-41-51\"},\"about\":{\"code\":0,\"being\":\"15-natural\",\"role\":\"map-of-okeenokee-swamp\",\"map\":\"\",\"uid\":\"00x00\",\"dex\":\"00004\",\"loc\":\"lixie-dixie\",\"token\":\"-\",\"title\":\"-title\"},\"time\":{\"sns\":0,\"wit\":0,\"act\":0,\"hrz\":0,\"spd\":13000,\"idl\":13000,\"now\":\"Sunday, December 14th 2064, 4:53:14:49 am\"},\"soul\":{\"stress\":0,\"smell\":0},\"conflict\":{\"skl\":9,\"atk\":2,\"esc\":9,\"def\":2,\"str\":10,\"dmg\":5,\"rst\":9,\"pwr\":2},\"be\":{\"id\":\"be\",\"thoughts\":{\"be\":0,\"map-00\":\"0\",\"map-01\":\"0\",\"map-00-00\":\"0\",\"map-01-00\":\"0\"},\"forms\":{\"be\":[\"map-00\",\"map-01\"],\"map-00\":[\"map-00-00\"],\"map-01\":[\"map-01-00\"]},\"plot\":{\"map-00\":[\"highway-to-good-time-gate\"],\"map-01\":[\"path-to-good-time-gate\"],\"map-00-00\":[\"good-time-gate\"],\"map-01-00\":[\"good-time-gate\"]},\"text\":{\"undefined\":[\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"],\"modern-court\":[\"\"],\"accessibility-office\":[\"\"],\"highway-to-good-time-gate\":[\"\"],\"path-to-good-time-gate\":[\"\"],\"good-time-gate\":[\"\",\"\"]},\"history\":[],\"actions\":{\"be\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/be.json\",\"label\":\"be\",\"moment\":12,\"pattern\":{\"nom\":\"swamp-shrub\",\"hex\":\"6D77ED\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-00-00\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-00-00.json\",\"label\":\"map-00-00\",\"name\":\"good-time-gate\",\"moment\":18,\"pattern\":{\"nom\":\"swamp\",\"hex\":\"80BFEB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-00\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-00.json\",\"label\":\"map-00\",\"name\":\"highway-to-good-time-gate\",\"moment\":92,\"pattern\":{\"nom\":\"peat-swamp-forest\",\"hex\":\"99C4EB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-01-00\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-01-00.json\",\"label\":\"map-01-00\",\"name\":\"good-time-gate\",\"moment\":139,\"pattern\":{\"nom\":\"swamp-shrub\",\"hex\":\"6D77ED\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-01\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-01.json\",\"label\":\"map-01\",\"name\":\"path-to-good-time-gate\",\"moment\":72,\"pattern\":{\"nom\":\"swamp\",\"hex\":\"80BFEB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}},\"action\":{\"be\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/be.json\",\"label\":\"be\",\"moment\":12,\"pattern\":{\"nom\":\"swamp-shrub\",\"hex\":\"6D77ED\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-00\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-00.json\",\"label\":\"map-00\",\"name\":\"highway-to-good-time-gate\",\"moment\":92,\"pattern\":{\"nom\":\"peat-swamp-forest\",\"hex\":\"99C4EB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-01\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-01.json\",\"label\":\"map-01\",\"name\":\"path-to-good-time-gate\",\"moment\":72,\"pattern\":{\"nom\":\"swamp\",\"hex\":\"80BFEB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-00-00\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-00-00.json\",\"label\":\"map-00-00\",\"name\":\"good-time-gate\",\"moment\":18,\"pattern\":{\"nom\":\"swamp\",\"hex\":\"80BFEB\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]},\"map-01-00\":{\"id\":\"./2-dat/act/15-natural/map-of-okeenokee-swamp/map-01-00.json\",\"label\":\"map-01-00\",\"name\":\"good-time-gate\",\"moment\":139,\"pattern\":{\"nom\":\"swamp-shrub\",\"hex\":\"6D77ED\"},\"ready\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"resolve\":{\"ms\":10,\"s\":3,\"m\":0,\"h\":0},\"awake\":[],\"spin\":[],\"over\":[]}}},\"pattern\":[{\"nom\":\"swamp\",\"hex\":\"80BFEB\"},{\"nom\":\"peat-swamp-forest\",\"hex\":\"99C4EB\"},{\"nom\":\"swamp-fox\",\"hex\":\"B891DB\"},{\"nom\":\"swamp-green\",\"hex\":\"7300DE\"},{\"nom\":\"swamp-mosquito\",\"hex\":\"24C9C9\"},{\"nom\":\"swamp-moss\",\"hex\":\"685ACC\"},{\"nom\":\"swamp-mud\",\"hex\":\"8587E8\"},{\"nom\":\"swamp-shrub\",\"hex\":\"6D77ED\"}],\"glop\":{\"nome\":\"name\",\"widt\":111,\"higt\":111,\"size\":0,\"pixl\":0,\"buff\":1,\"work\":-1,\"prcs\":[],\"comp\":[],\"form\":[],\"mark\":[],\"schm\":[],\"strk\":[],\"scor\":[]},\"nets\":{},\"dex\":5,\"code\":[\"okeenokee\",\"15-natural\",\"map-of-okeenokee-swamp\"],\"clr\":\"okeenokee-swamp : swamp, peat-swamp-forest, swamp-fox, swamp-green, swamp-mosquito, swamp-moss, swamp-mud, swamp-shrub,\",\"src\":\"049-043-004-007\",\"save\":\"./2-dat/bot/15-natural/map-of-okeenokee-swamp/okeenokee-swamp.json\"}]}\n";
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2702,7 +2794,7 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":26}],24:[function(require,module,exports){
+},{"util/":27}],25:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -2727,14 +2819,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -3324,7 +3416,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":25,"_process":82,"inherits":24}],27:[function(require,module,exports){
+},{"./support/isBuffer":26,"_process":83,"inherits":25}],28:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -3477,11 +3569,11 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],28:[function(require,module,exports){
-
 },{}],29:[function(require,module,exports){
-arguments[4][28][0].apply(exports,arguments)
-},{"dup":28}],30:[function(require,module,exports){
+
+},{}],30:[function(require,module,exports){
+arguments[4][29][0].apply(exports,arguments)
+},{"dup":29}],31:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -5260,7 +5352,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":27,"ieee754":73}],31:[function(require,module,exports){
+},{"base64-js":28,"ieee754":74}],32:[function(require,module,exports){
 (function (Buffer){
 //  Chance.js 1.0.16
 //  http://chancejs.com
@@ -12744,7 +12836,7 @@ function numberIsNaN (obj) {
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":30}],32:[function(require,module,exports){
+},{"buffer":31}],33:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.nlp = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 (function (global){
@@ -27500,7 +27592,7 @@ module.exports = unpackPlurals;
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports={
   "O_RDONLY": 0,
   "O_WRONLY": 1,
@@ -27711,7 +27803,7 @@ module.exports={
   "UV_UDP_REUSEADDR": 4
 }
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -27822,7 +27914,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":75}],35:[function(require,module,exports){
+},{"../../is-buffer/index.js":76}],36:[function(require,module,exports){
 // doT.js
 // 2011-2014, Laura Doktorova, https://github.com/olado/doT
 // Licensed under the MIT license.
@@ -27968,7 +28060,7 @@ function objectToString(o) {
 	};
 }());
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -28493,7 +28585,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict'
 
 const fs = require('graceful-fs')
@@ -28536,7 +28628,7 @@ function copyFileSync (srcFile, destFile, options) {
 
 module.exports = copyFileSync
 
-},{"../util/buffer":67,"graceful-fs":70}],38:[function(require,module,exports){
+},{"../util/buffer":68,"graceful-fs":71}],39:[function(require,module,exports){
 (function (process){
 'use strict'
 
@@ -28602,12 +28694,12 @@ function copySync (src, dest, options) {
 module.exports = copySync
 
 }).call(this,require('_process'))
-},{"../mkdirs":56,"./copy-file-sync":37,"_process":82,"graceful-fs":70,"path":80}],39:[function(require,module,exports){
+},{"../mkdirs":57,"./copy-file-sync":38,"_process":83,"graceful-fs":71,"path":81}],40:[function(require,module,exports){
 module.exports = {
   copySync: require('./copy-sync')
 }
 
-},{"./copy-sync":38}],40:[function(require,module,exports){
+},{"./copy-sync":39}],41:[function(require,module,exports){
 (function (process){
 'use strict'
 
@@ -28665,13 +28757,13 @@ function copy (src, dest, options, callback) {
 module.exports = copy
 
 }).call(this,require('_process'))
-},{"../mkdirs":56,"../path-exists":63,"./ncp":42,"_process":82,"graceful-fs":70,"path":80}],41:[function(require,module,exports){
+},{"../mkdirs":57,"../path-exists":64,"./ncp":43,"_process":83,"graceful-fs":71,"path":81}],42:[function(require,module,exports){
 const u = require('universalify').fromCallback
 module.exports = {
   copy: u(require('./copy'))
 }
 
-},{"./copy":40,"universalify":105}],42:[function(require,module,exports){
+},{"./copy":41,"universalify":106}],43:[function(require,module,exports){
 (function (process){
 // imported from ncp (this is temporary, will rewrite)
 
@@ -28909,7 +29001,7 @@ function ncp (source, dest, options, callback) {
 module.exports = ncp
 
 }).call(this,require('_process'))
-},{"../util/utimes":68,"_process":82,"graceful-fs":70,"path":80}],43:[function(require,module,exports){
+},{"../util/utimes":69,"_process":83,"graceful-fs":71,"path":81}],44:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -28959,7 +29051,7 @@ module.exports = {
   emptydir: emptyDir
 }
 
-},{"../mkdirs":56,"../remove":64,"fs":29,"path":80,"universalify":105}],44:[function(require,module,exports){
+},{"../mkdirs":57,"../remove":65,"fs":30,"path":81,"universalify":106}],45:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -29010,7 +29102,7 @@ module.exports = {
   createFileSync
 }
 
-},{"../mkdirs":56,"../path-exists":63,"graceful-fs":70,"path":80,"universalify":105}],45:[function(require,module,exports){
+},{"../mkdirs":57,"../path-exists":64,"graceful-fs":71,"path":81,"universalify":106}],46:[function(require,module,exports){
 'use strict'
 
 const file = require('./file')
@@ -29035,7 +29127,7 @@ module.exports = {
   ensureSymlinkSync: symlink.createSymlinkSync
 }
 
-},{"./file":44,"./link":46,"./symlink":49}],46:[function(require,module,exports){
+},{"./file":45,"./link":47,"./symlink":50}],47:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -29098,7 +29190,7 @@ module.exports = {
   createLinkSync
 }
 
-},{"../mkdirs":56,"../path-exists":63,"graceful-fs":70,"path":80,"universalify":105}],47:[function(require,module,exports){
+},{"../mkdirs":57,"../path-exists":64,"graceful-fs":71,"path":81,"universalify":106}],48:[function(require,module,exports){
 'use strict'
 
 const path = require('path')
@@ -29199,7 +29291,7 @@ module.exports = {
   symlinkPathsSync
 }
 
-},{"../path-exists":63,"graceful-fs":70,"path":80}],48:[function(require,module,exports){
+},{"../path-exists":64,"graceful-fs":71,"path":81}],49:[function(require,module,exports){
 'use strict'
 
 const fs = require('graceful-fs')
@@ -29232,7 +29324,7 @@ module.exports = {
   symlinkTypeSync
 }
 
-},{"graceful-fs":70}],49:[function(require,module,exports){
+},{"graceful-fs":71}],50:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -29300,7 +29392,7 @@ module.exports = {
   createSymlinkSync
 }
 
-},{"../mkdirs":56,"../path-exists":63,"./symlink-paths":47,"./symlink-type":48,"graceful-fs":70,"path":80,"universalify":105}],50:[function(require,module,exports){
+},{"../mkdirs":57,"../path-exists":64,"./symlink-paths":48,"./symlink-type":49,"graceful-fs":71,"path":81,"universalify":106}],51:[function(require,module,exports){
 // This is adapted from https://github.com/normalize/mz
 // Copyright (c) 2014-2016 Jonathan Ong me@jongleberry.com and Contributors
 const u = require('universalify').fromCallback
@@ -29409,7 +29501,7 @@ exports.write = function (fd, buffer, a, b, c, callback) {
   })
 }
 
-},{"graceful-fs":70,"universalify":105}],51:[function(require,module,exports){
+},{"graceful-fs":71,"universalify":106}],52:[function(require,module,exports){
 'use strict'
 
 const assign = require('./util/assign')
@@ -29433,7 +29525,7 @@ assign(fs, require('./path-exists'))
 
 module.exports = fs
 
-},{"./copy":41,"./copy-sync":39,"./empty":43,"./ensure":45,"./fs":50,"./json":52,"./mkdirs":56,"./move":61,"./move-sync":60,"./output":62,"./path-exists":63,"./remove":64,"./util/assign":66}],52:[function(require,module,exports){
+},{"./copy":42,"./copy-sync":40,"./empty":44,"./ensure":46,"./fs":51,"./json":53,"./mkdirs":57,"./move":62,"./move-sync":61,"./output":63,"./path-exists":64,"./remove":65,"./util/assign":67}],53:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -29451,7 +29543,7 @@ jsonFile.readJSONSync = jsonFile.readJsonSync
 
 module.exports = jsonFile
 
-},{"./jsonfile":53,"./output-json":55,"./output-json-sync":54,"universalify":105}],53:[function(require,module,exports){
+},{"./jsonfile":54,"./output-json":56,"./output-json-sync":55,"universalify":106}],54:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -29465,7 +29557,7 @@ module.exports = {
   writeJsonSync: jsonFile.writeFileSync
 }
 
-},{"jsonfile":77,"universalify":105}],54:[function(require,module,exports){
+},{"jsonfile":78,"universalify":106}],55:[function(require,module,exports){
 'use strict'
 
 const fs = require('graceful-fs')
@@ -29485,7 +29577,7 @@ function outputJsonSync (file, data, options) {
 
 module.exports = outputJsonSync
 
-},{"../mkdirs":56,"./jsonfile":53,"graceful-fs":70,"path":80}],55:[function(require,module,exports){
+},{"../mkdirs":57,"./jsonfile":54,"graceful-fs":71,"path":81}],56:[function(require,module,exports){
 'use strict'
 
 const path = require('path')
@@ -29514,7 +29606,7 @@ function outputJson (file, data, options, callback) {
 
 module.exports = outputJson
 
-},{"../mkdirs":56,"../path-exists":63,"./jsonfile":53,"path":80}],56:[function(require,module,exports){
+},{"../mkdirs":57,"../path-exists":64,"./jsonfile":54,"path":81}],57:[function(require,module,exports){
 'use strict'
 const u = require('universalify').fromCallback
 const mkdirs = u(require('./mkdirs'))
@@ -29530,7 +29622,7 @@ module.exports = {
   ensureDirSync: mkdirsSync
 }
 
-},{"./mkdirs":58,"./mkdirs-sync":57,"universalify":105}],57:[function(require,module,exports){
+},{"./mkdirs":59,"./mkdirs-sync":58,"universalify":106}],58:[function(require,module,exports){
 (function (process){
 'use strict'
 
@@ -29593,7 +29685,7 @@ function mkdirsSync (p, opts, made) {
 module.exports = mkdirsSync
 
 }).call(this,require('_process'))
-},{"./win32":59,"_process":82,"graceful-fs":70,"path":80}],58:[function(require,module,exports){
+},{"./win32":60,"_process":83,"graceful-fs":71,"path":81}],59:[function(require,module,exports){
 (function (process){
 'use strict'
 
@@ -29660,7 +29752,7 @@ function mkdirs (p, opts, callback, made) {
 module.exports = mkdirs
 
 }).call(this,require('_process'))
-},{"./win32":59,"_process":82,"graceful-fs":70,"path":80}],59:[function(require,module,exports){
+},{"./win32":60,"_process":83,"graceful-fs":71,"path":81}],60:[function(require,module,exports){
 'use strict'
 
 const path = require('path')
@@ -29687,7 +29779,7 @@ module.exports = {
   invalidWin32Path
 }
 
-},{"path":80}],60:[function(require,module,exports){
+},{"path":81}],61:[function(require,module,exports){
 'use strict'
 
 const fs = require('graceful-fs')
@@ -29807,7 +29899,7 @@ module.exports = {
   moveSync
 }
 
-},{"../copy-sync":39,"../mkdirs":56,"../remove":64,"../util/buffer":67,"graceful-fs":70,"path":80}],61:[function(require,module,exports){
+},{"../copy-sync":40,"../mkdirs":57,"../remove":65,"../util/buffer":68,"graceful-fs":71,"path":81}],62:[function(require,module,exports){
 'use strict'
 
 // most of this code was written by Andrew Kelley
@@ -29979,7 +30071,7 @@ module.exports = {
   move: u(move)
 }
 
-},{"../copy/ncp":42,"../mkdirs":56,"../remove":64,"graceful-fs":70,"path":80,"universalify":105}],62:[function(require,module,exports){
+},{"../copy/ncp":43,"../mkdirs":57,"../remove":65,"graceful-fs":71,"path":81,"universalify":106}],63:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -30021,7 +30113,7 @@ module.exports = {
   outputFileSync
 }
 
-},{"../mkdirs":56,"../path-exists":63,"graceful-fs":70,"path":80,"universalify":105}],63:[function(require,module,exports){
+},{"../mkdirs":57,"../path-exists":64,"graceful-fs":71,"path":81,"universalify":106}],64:[function(require,module,exports){
 'use strict'
 const u = require('universalify').fromPromise
 const fs = require('../fs')
@@ -30035,7 +30127,7 @@ module.exports = {
   pathExistsSync: fs.existsSync
 }
 
-},{"../fs":50,"universalify":105}],64:[function(require,module,exports){
+},{"../fs":51,"universalify":106}],65:[function(require,module,exports){
 'use strict'
 
 const u = require('universalify').fromCallback
@@ -30046,7 +30138,7 @@ module.exports = {
   removeSync: rimraf.sync
 }
 
-},{"./rimraf":65,"universalify":105}],65:[function(require,module,exports){
+},{"./rimraf":66,"universalify":106}],66:[function(require,module,exports){
 (function (process){
 'use strict'
 
@@ -30364,7 +30456,7 @@ module.exports = rimraf
 rimraf.sync = rimrafSync
 
 }).call(this,require('_process'))
-},{"_process":82,"assert":23,"graceful-fs":70,"path":80}],66:[function(require,module,exports){
+},{"_process":83,"assert":24,"graceful-fs":71,"path":81}],67:[function(require,module,exports){
 'use strict'
 
 // simple mutable assign
@@ -30382,7 +30474,7 @@ function assign () {
 
 module.exports = assign
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 (function (Buffer){
 /* eslint-disable node/no-deprecated-api */
 module.exports = function (size) {
@@ -30397,7 +30489,7 @@ module.exports = function (size) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":30}],68:[function(require,module,exports){
+},{"buffer":31}],69:[function(require,module,exports){
 'use strict'
 
 const fs = require('graceful-fs')
@@ -30471,7 +30563,7 @@ module.exports = {
   utimesMillis
 }
 
-},{"graceful-fs":70,"os":79,"path":80}],69:[function(require,module,exports){
+},{"graceful-fs":71,"os":80,"path":81}],70:[function(require,module,exports){
 'use strict'
 
 var fs = require('fs')
@@ -30494,7 +30586,7 @@ function clone (obj) {
   return copy
 }
 
-},{"fs":29}],70:[function(require,module,exports){
+},{"fs":30}],71:[function(require,module,exports){
 (function (process){
 var fs = require('fs')
 var polyfills = require('./polyfills.js')
@@ -30760,7 +30852,7 @@ function retry () {
 }
 
 }).call(this,require('_process'))
-},{"./fs.js":69,"./legacy-streams.js":71,"./polyfills.js":72,"_process":82,"assert":23,"fs":29,"util":108}],71:[function(require,module,exports){
+},{"./fs.js":70,"./legacy-streams.js":72,"./polyfills.js":73,"_process":83,"assert":24,"fs":30,"util":109}],72:[function(require,module,exports){
 (function (process){
 var Stream = require('stream').Stream
 
@@ -30882,7 +30974,7 @@ function legacy (fs) {
 }
 
 }).call(this,require('_process'))
-},{"_process":82,"stream":84}],72:[function(require,module,exports){
+},{"_process":83,"stream":85}],73:[function(require,module,exports){
 (function (process){
 var fs = require('./fs.js')
 var constants = require('constants')
@@ -31216,7 +31308,7 @@ function chownErOk (er) {
 }
 
 }).call(this,require('_process'))
-},{"./fs.js":69,"_process":82,"constants":33}],73:[function(require,module,exports){
+},{"./fs.js":70,"_process":83,"constants":34}],74:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -31302,9 +31394,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],74:[function(require,module,exports){
-arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}],75:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"dup":25}],76:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -31327,7 +31419,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 "use strict";
 
 module.exports.pretty = function(jsObject, indentLength, outputTo, fullFunction) {
@@ -31529,7 +31621,7 @@ module.exports.pretty = function(jsObject, indentLength, outputTo, fullFunction)
     return 'Error: no Javascript object provided';
 };
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 (function (Buffer){
 var _fs
 try {
@@ -31667,7 +31759,7 @@ var jsonfile = {
 module.exports = jsonfile
 
 }).call(this,{"isBuffer":require("../is-buffer/index.js")})
-},{"../is-buffer/index.js":75,"fs":29,"graceful-fs":70}],78:[function(require,module,exports){
+},{"../is-buffer/index.js":76,"fs":30,"graceful-fs":71}],79:[function(require,module,exports){
 //! moment.js
 
 ;(function (global, factory) {
@@ -36175,7 +36267,7 @@ module.exports = jsonfile
 
 })));
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 exports.endianness = function () { return 'LE' };
 
 exports.hostname = function () {
@@ -36226,7 +36318,7 @@ exports.homedir = function () {
 	return '/'
 };
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -36532,7 +36624,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":82}],81:[function(require,module,exports){
+},{"_process":83}],82:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -36580,7 +36672,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":82}],82:[function(require,module,exports){
+},{"_process":83}],83:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -36766,7 +36858,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -36830,7 +36922,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":30}],84:[function(require,module,exports){
+},{"buffer":31}],85:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -36959,17 +37051,17 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":36,"inherits":74,"readable-stream/duplex.js":86,"readable-stream/passthrough.js":95,"readable-stream/readable.js":96,"readable-stream/transform.js":97,"readable-stream/writable.js":98}],85:[function(require,module,exports){
+},{"events":37,"inherits":75,"readable-stream/duplex.js":87,"readable-stream/passthrough.js":96,"readable-stream/readable.js":97,"readable-stream/transform.js":98,"readable-stream/writable.js":99}],86:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":87}],87:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":88}],88:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -37101,7 +37193,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":89,"./_stream_writable":91,"core-util-is":34,"inherits":74,"process-nextick-args":81}],88:[function(require,module,exports){
+},{"./_stream_readable":90,"./_stream_writable":92,"core-util-is":35,"inherits":75,"process-nextick-args":82}],89:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -37149,7 +37241,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":90,"core-util-is":34,"inherits":74}],89:[function(require,module,exports){
+},{"./_stream_transform":91,"core-util-is":35,"inherits":75}],90:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -38171,7 +38263,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":87,"./internal/streams/BufferList":92,"./internal/streams/destroy":93,"./internal/streams/stream":94,"_process":82,"core-util-is":34,"events":36,"inherits":74,"isarray":85,"process-nextick-args":81,"safe-buffer":83,"string_decoder/":99,"util":28}],90:[function(require,module,exports){
+},{"./_stream_duplex":88,"./internal/streams/BufferList":93,"./internal/streams/destroy":94,"./internal/streams/stream":95,"_process":83,"core-util-is":35,"events":37,"inherits":75,"isarray":86,"process-nextick-args":82,"safe-buffer":84,"string_decoder/":100,"util":29}],91:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -38386,7 +38478,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":87,"core-util-is":34,"inherits":74}],91:[function(require,module,exports){
+},{"./_stream_duplex":88,"core-util-is":35,"inherits":75}],92:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -39076,7 +39168,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":87,"./internal/streams/destroy":93,"./internal/streams/stream":94,"_process":82,"core-util-is":34,"inherits":74,"process-nextick-args":81,"safe-buffer":83,"timers":104,"util-deprecate":106}],92:[function(require,module,exports){
+},{"./_stream_duplex":88,"./internal/streams/destroy":94,"./internal/streams/stream":95,"_process":83,"core-util-is":35,"inherits":75,"process-nextick-args":82,"safe-buffer":84,"timers":105,"util-deprecate":107}],93:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39156,7 +39248,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":83,"util":28}],93:[function(require,module,exports){
+},{"safe-buffer":84,"util":29}],94:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -39231,13 +39323,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":81}],94:[function(require,module,exports){
+},{"process-nextick-args":82}],95:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":36}],95:[function(require,module,exports){
+},{"events":37}],96:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":96}],96:[function(require,module,exports){
+},{"./readable":97}],97:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -39246,13 +39338,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":87,"./lib/_stream_passthrough.js":88,"./lib/_stream_readable.js":89,"./lib/_stream_transform.js":90,"./lib/_stream_writable.js":91}],97:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":88,"./lib/_stream_passthrough.js":89,"./lib/_stream_readable.js":90,"./lib/_stream_transform.js":91,"./lib/_stream_writable.js":92}],98:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":96}],98:[function(require,module,exports){
+},{"./readable":97}],99:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":91}],99:[function(require,module,exports){
+},{"./lib/_stream_writable.js":92}],100:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -39549,7 +39641,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":83}],100:[function(require,module,exports){
+},{"safe-buffer":84}],101:[function(require,module,exports){
 function count(self, substr) {
   var count = 0
   var pos = self.indexOf(substr)
@@ -39563,7 +39655,7 @@ function count(self, substr) {
 }
 
 module.exports = count
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 function splitLeft(self, sep, maxSplit, limit) {
 
   if (typeof maxSplit === 'undefined') {
@@ -39592,7 +39684,7 @@ function splitLeft(self, sep, maxSplit, limit) {
 
 module.exports = splitLeft;
 
-},{}],102:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 function splitRight(self, sep, maxSplit, limit) {
 
   if (typeof maxSplit === 'undefined') {
@@ -39625,7 +39717,7 @@ function splitRight(self, sep, maxSplit, limit) {
 
 module.exports = splitRight;
 
-},{}],103:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 /*
 string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 */
@@ -40735,7 +40827,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 
 }).call(this);
 
-},{"./_count":100,"./_splitLeft":101,"./_splitRight":102}],104:[function(require,module,exports){
+},{"./_count":101,"./_splitLeft":102,"./_splitRight":103}],105:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -40814,7 +40906,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":82,"timers":104}],105:[function(require,module,exports){
+},{"process/browser.js":83,"timers":105}],106:[function(require,module,exports){
 'use strict'
 
 exports.fromCallback = function (fn) {
@@ -40841,7 +40933,7 @@ exports.fromPromise = function (fn) {
   }, 'name', { value: fn.name })
 }
 
-},{}],106:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 (function (global){
 
 /**
@@ -40912,8 +41004,8 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],107:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],108:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 arguments[4][26][0].apply(exports,arguments)
-},{"./support/isBuffer":107,"_process":82,"dup":26,"inherits":74}]},{},[21]);
+},{"dup":26}],109:[function(require,module,exports){
+arguments[4][27][0].apply(exports,arguments)
+},{"./support/isBuffer":108,"_process":83,"dup":27,"inherits":75}]},{},[22]);
